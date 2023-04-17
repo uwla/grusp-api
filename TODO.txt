@@ -1,0 +1,21 @@
+# TODO
+
+Um draft inicial da modelagem do projeto.
+
+## Grupos
+- titulo
+- descricao
+- publico alvo
+- horários de encontro
+- pontos de encontro
+- numero de membros
+- departamento
+- campus
+- informacao de contato
+- links de rede social
+- social media links
+- mensalidade
+- fotos
+
+- upvotes?
+- comentarios?
