@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0130c438d4ff2e98e01fb9d2c22e7cd6",
+    "content-hash": "b03fcb1f19daebd8a15b8aac9fa61bbe",
     "packages": [
         {
             "name": "brick/math",
@@ -4650,6 +4650,113 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.6"
             },
             "time": "2023-01-03T09:29:04+00:00"
+        },
+        {
+            "name": "uwla/lacl",
+            "version": "v1.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/uwla/lacl.git",
+                "reference": "20a9295f80a033f5cb80671d1e743391c5035f92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/uwla/lacl/zipball/20a9295f80a033f5cb80671d1e743391c5035f92",
+                "reference": "20a9295f80a033f5cb80671d1e743391c5035f92",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "^10.0",
+                "illuminate/database": "^10.0"
+            },
+            "require-dev": {
+                "laravel/sanctum": "^3.2",
+                "laravel/ui": "^4.2",
+                "orchestra/testbench": "^8.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Uwla\\Lacl\\AclServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tests\\": "tests/",
+                    "Uwla\\Lacl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "uwla"
+                }
+            ],
+            "description": "Laravel Access Control List",
+            "homepage": "https://github.com/uwla/lacl",
+            "support": {
+                "issues": "https://github.com/uwla/lacl/issues",
+                "source": "https://github.com/uwla/lacl/tree/v1.4.2"
+            },
+            "time": "2023-03-17T14:43:24+00:00"
+        },
+        {
+            "name": "uwla/ltags",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/uwla/ltags.git",
+                "reference": "981e3c263cd296829a1890c86939aa96ebc9b9fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/uwla/ltags/zipball/981e3c263cd296829a1890c86939aa96ebc9b9fc",
+                "reference": "981e3c263cd296829a1890c86939aa96ebc9b9fc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^10.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Uwla\\Ltags\\TagServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tests\\": "tests/",
+                    "Uwla\\Ltags\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "uwla"
+                }
+            ],
+            "description": "Laravel Tagging System",
+            "homepage": "https://github.com/uwla/ltags",
+            "support": {
+                "issues": "https://github.com/uwla/ltags/issues",
+                "source": "https://github.com/uwla/ltags/tree/v1.2.0"
+            },
+            "time": "2023-04-05T13:18:44+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
