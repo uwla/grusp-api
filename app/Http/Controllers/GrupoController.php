@@ -2,60 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreGrupoRequest;
-use App\Http\Requests\UpdateGrupoRequest;
 use App\Models\Grupo;
+use App\Http\Controllers\CrudController;
 
 class GrupoController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     */
-    public function __construct()
+    use CrudController;
+
+    public function model()
     {
-        $this->authorizeResource(Grupo::class, 'grupo');
+        return Grupo::class;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function rules()
     {
-        return Grupo::all();
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreGrupoRequest $request)
-    {
-        $grupo = Grupo::create($request->validated());
-        return $grupo;
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Grupo $grupo)
-    {
-        return $grupo;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateGrupoRequest $request, Grupo $grupo)
-    {
-        $grupo->update($request->validated());
-        return $grupo;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Grupo $grupo)
-    {
-        $grupo->delete();
-        return $grupo;
+        return [
+            'titulo'    => 'required|string|min:2|max:200',
+            'descricao' => 'required|string|max:5000',
+        ];
     }
 }
