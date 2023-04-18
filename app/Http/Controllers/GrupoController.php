@@ -9,6 +9,14 @@ use App\Models\Grupo;
 class GrupoController extends Controller
 {
     /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Grupo::class, 'grupo');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
