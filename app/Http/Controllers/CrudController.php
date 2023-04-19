@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 
 Trait CrudController
 {
@@ -12,10 +11,12 @@ Trait CrudController
      */
     public function __construct()
     {
-        $modelClass = $this->model();
-        $array = explode('\\', $modelClass);
-        $slug = strtolower(end($array));
-        $this->authorizeResource($modelClass, $slug);
+        // this handles authorization:
+
+        // $modelClass = $this->model();
+        // $array = explode('\\', $modelClass);
+        // $slug = strtolower(end($array));
+        // $this->authorizeResource($modelClass, $slug);
     }
 
     /**
@@ -39,17 +40,18 @@ Trait CrudController
     /**
      * Display the specified resource.
      */
-    public function show(Model $model)
+    public function show($model)
     {
-        return $model;
+        return $this->model()::find($model);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Model $model)
+    public function update(Request $request, $model)
     {
         $request->validate($this->rules());
+        $model = $this->model()::find($model);
         $model->update($request->validated());
         return $model;
     }
@@ -57,7 +59,7 @@ Trait CrudController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Model $model)
+    public function destroy($model)
     {
         $model->delete();
         return $model;
