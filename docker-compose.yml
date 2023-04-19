@@ -23,6 +23,7 @@ services:
             - sail
         depends_on:
             - mysql
+        restart: always
     mysql:
         container_name: app_db
         image: 'mysql/mysql-server:8.0'
@@ -46,6 +47,7 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+        restart: always
 networks:
     sail:
         driver: bridge
