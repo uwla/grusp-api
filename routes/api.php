@@ -23,8 +23,13 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [AuthController::class, 'profile']);
-
     Route::apiResource('/grupo', GrupoController::class);
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/tag', TagController::class);
 });
+
+// we will redefine some routes here
+// because these routes should be public
+$options = ['only' => ['index', 'show']];
+Route::apiResource('/grupo', GrupoController::class, $options);
+Route::apiResource('/tag', TagController::class, $options);
