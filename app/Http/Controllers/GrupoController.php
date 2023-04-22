@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grupo;
-use App\Http\Controllers\CrudController;
 
 class GrupoController extends Controller
 {
