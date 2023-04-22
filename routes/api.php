@@ -3,7 +3,7 @@
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TagController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/login',    [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
-Route::apiResource('grupo', GrupoController::class);
-Route::apiResource('user', UserController::class);
-Route::apiResource('tag', TagController::class);
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/profile', [AuthController::class, 'profile']);
+
+    Route::apiResource('/grupo', GrupoController::class);
+    Route::apiResource('/user', UserController::class);
+    Route::apiResource('/tag', TagController::class);
+});
