@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Tag;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 
 class TagSeeder extends Seeder
 {
@@ -46,7 +47,7 @@ class TagSeeder extends Seeder
         ];
 
         // all tags = parent tags + nested tags
-        $all = array_keys($tags) + call_user_func_array('array_merge', $tags);
+        $all = array_keys($tags) + Arr::flatten($tags);
         Tag::createMany($all);
 
         foreach($tags as $parent => $children)
