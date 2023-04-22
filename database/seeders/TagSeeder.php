@@ -23,6 +23,17 @@ class TagSeeder extends Seeder
                 'artes visuais', 'pintura', 'gastronomia', 'desenho', 'teatro',
                 'fotografia',
             ],
+            // from https://www5.usp.br/institucional/escolas-faculdades-e-institutos/
+            'campus' => [
+                'Bauru', 'Lorena', 'Piracicaba', 'Pirassununga',
+                'Ribeirão Preto', 'Santos', 'São Carlos', 'São Paulo'
+            ],
+            'departamento' => [
+                'EACH', 'ECA', 'EE', 'EEFE', 'FAU', 'FCF', 'FD', 'FE', 'FEA',
+                'FFLCH', 'FM', 'FMVZ', 'FO', 'FSP', 'IAG', 'IB', 'ICB', 'IEA',
+                'IEB', 'IEE', 'IF', 'IGc', 'IME', 'IMT', 'IO', 'IP', 'IQ', 'IRI',
+                'POLI',
+            ],
             'esportes' => [
                 'basket', 'box', 'calistenia', 'capoeira', 'cheer', 'corrida',
                 'escalada', 'futebol', 'ginástica', 'handebol', 'jiu jitsu',
@@ -44,6 +55,7 @@ class TagSeeder extends Seeder
             'religião' => [
                 'cristianismo', 'espiritismo', 'budismo',
             ],
+
         ];
 
         // all tags = parent tags + nested tags
@@ -52,5 +64,8 @@ class TagSeeder extends Seeder
 
         foreach($tags as $parent => $children)
             Tag::addTagTo($parent, Tag::findManyByName($children));
+
+        // acutally, delete the tags Campus and Departamento...
+        Tag::del(['campus', 'departamento']);
     }
 }

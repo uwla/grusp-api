@@ -21,8 +21,6 @@ return new class extends Migration
             $table->text('redes_sociais')->nullable();
             $table->text('contato')->nullable();
             $table->integer('mensalidade')->nullable();
-            $table->string('departamento')->nullable();
-            $table->string('campus')->nullable();
             $table->timestamps();
         });
     }
