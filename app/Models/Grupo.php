@@ -12,4 +12,12 @@ use Uwla\Lacl\Contracts\Permissionable as PermissionableContract;
 class Grupo extends Model implements TaggableContract, PermissionableContract
 {
     use HasFactory, HasTags, Permissionable;
+
+    /**
+     * The attributes that are not mass assignable.
+     * Other attributes will be regarded as mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 }
