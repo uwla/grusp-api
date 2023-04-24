@@ -48,7 +48,7 @@ class GrupoController extends Controller
         // set the Grupo tags
         $tags = Tag::findManyByName($request->tags);
         if ($tags->count() > 0)
-            $grupo->setTags($tags);
+            $grupo->addTags($tags);
 
         // grant the user permission to access the Grupo
         $user = $request->user();
@@ -108,7 +108,7 @@ class GrupoController extends Controller
      */
     public function rules()
     {
-        $tags = Tag::all('name')->toArray();
+        $tags = Tag::where('namespace', null)->get()->pluck('name');
         $tag_rule = Rule::in($tags);
 
         return [

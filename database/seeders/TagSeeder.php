@@ -55,17 +55,17 @@ class TagSeeder extends Seeder
             'religião' => [
                 'cristianismo', 'espiritismo', 'budismo',
             ],
-
         ];
 
-        // all tags = parent tags + nested tags
-        $all = array_keys($tags) + Arr::flatten($tags);
-        Tag::createMany($all);
 
+        // the parent tags are not meant to be directly used to tag items
+        Tag::createMany(array_keys($tags), 'static');
+
+        // the children tags are meant to be used to tag items
+        Tag::createMany(Arr::flatten($tags));
+
+        // parent tags are meant to tag their children, that's it
         foreach($tags as $parent => $children)
             Tag::addTagTo($parent, Tag::findManyByName($children));
-
-        // acutally, delete the tags Campus and Departamento...
-        Tag::del(['campus', 'departamento']);
     }
 }
