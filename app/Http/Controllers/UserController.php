@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\PasswordRule;
+use App\Rules\USPEmailRule;
 
 class UserController extends Controller
 {
@@ -17,8 +19,8 @@ class UserController extends Controller
     {
         return [
             'name'     => 'required|string|max:50',
-            'email'    => 'required|email',
-            'password' => 'required|string|min:10|max:100',
+            'email'    => ['required', 'email', new USPEmailRule()],
+            'password' => ['required', 'string', new PasswordRule()]
         ];
     }
 }

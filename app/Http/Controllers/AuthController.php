@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\PasswordRule;
+use App\Rules\USPEmailRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -65,8 +67,8 @@ class AuthController extends Controller
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string',
+            'email' => ['required', 'email', new USPEmailRule()],
+            'password' => ['required', 'string', new PasswordRule()],
         ];
     }
 }
