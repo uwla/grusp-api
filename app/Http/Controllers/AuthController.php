@@ -53,14 +53,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the profile of the authenticated user
-     */
-    public function profile(Request $request)
-    {
-        return $request->user();
-    }
-
-    /**
      * Get the validation rules for registering/logging in
      * This is just basic rules. Surely it will be improved later on.
      */

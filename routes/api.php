@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TagController;
@@ -21,11 +22,20 @@ Route::post('/login',    [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
+    // more auth routes
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/profile', [AuthController::class, 'profile']);
+
+    // resource routes
     Route::apiResource('/grupo', GrupoController::class);
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/tag', TagController::class);
+
+    // user account
+    Route::group(['prefix' => 'account'], function() {
+        Route::get('/grupos', [AccountController::class, 'grupos']);
+        Route::get('/profile', [AccountController::class, 'getPofile']);
+        Route::post('/profile', [AccountController::class, 'updatePofile']);
+    });
 });
 
 // we will redefine some routes here
