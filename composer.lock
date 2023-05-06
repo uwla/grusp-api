@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b03fcb1f19daebd8a15b8aac9fa61bbe",
+    "content-hash": "674695c5545c06b19b59b93893489aa6",
     "packages": [
         {
             "name": "brick/math",
@@ -4653,16 +4653,16 @@
         },
         {
             "name": "uwla/lacl",
-            "version": "v1.4.2",
+            "version": "v1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/uwla/lacl.git",
-                "reference": "20a9295f80a033f5cb80671d1e743391c5035f92"
+                "reference": "768c6b90a30b2dfcd662ea06872eb9e4b28286f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uwla/lacl/zipball/20a9295f80a033f5cb80671d1e743391c5035f92",
-                "reference": "20a9295f80a033f5cb80671d1e743391c5035f92",
+                "url": "https://api.github.com/repos/uwla/lacl/zipball/768c6b90a30b2dfcd662ea06872eb9e4b28286f1",
+                "reference": "768c6b90a30b2dfcd662ea06872eb9e4b28286f1",
                 "shasum": ""
             },
             "require": {
@@ -4671,7 +4671,6 @@
             },
             "require-dev": {
                 "laravel/sanctum": "^3.2",
-                "laravel/ui": "^4.2",
                 "orchestra/testbench": "^8.0",
                 "phpunit/phpunit": "^10.0"
             },
@@ -4702,22 +4701,22 @@
             "homepage": "https://github.com/uwla/lacl",
             "support": {
                 "issues": "https://github.com/uwla/lacl/issues",
-                "source": "https://github.com/uwla/lacl/tree/v1.4.2"
+                "source": "https://github.com/uwla/lacl/tree/v1.7.2"
             },
-            "time": "2023-03-17T14:43:24+00:00"
+            "time": "2023-05-09T12:18:33+00:00"
         },
         {
             "name": "uwla/ltags",
-            "version": "v1.2.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/uwla/ltags.git",
-                "reference": "981e3c263cd296829a1890c86939aa96ebc9b9fc"
+                "reference": "20ca94de96188ec2c7658e66ec275d35fe11100b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uwla/ltags/zipball/981e3c263cd296829a1890c86939aa96ebc9b9fc",
-                "reference": "981e3c263cd296829a1890c86939aa96ebc9b9fc",
+                "url": "https://api.github.com/repos/uwla/ltags/zipball/20ca94de96188ec2c7658e66ec275d35fe11100b",
+                "reference": "20ca94de96188ec2c7658e66ec275d35fe11100b",
                 "shasum": ""
             },
             "require": {
@@ -4754,9 +4753,9 @@
             "homepage": "https://github.com/uwla/ltags",
             "support": {
                 "issues": "https://github.com/uwla/ltags/issues",
-                "source": "https://github.com/uwla/ltags/tree/v1.2.0"
+                "source": "https://github.com/uwla/ltags/tree/v1.5.0"
             },
-            "time": "2023-04-05T13:18:44+00:00"
+            "time": "2023-05-11T22:53:24+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
