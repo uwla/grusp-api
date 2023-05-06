@@ -33,8 +33,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     // user account
     Route::group(['prefix' => 'account'], function() {
         Route::get('/grupos', [AccountController::class, 'grupos']);
-        Route::get('/profile', [AccountController::class, 'getPofile']);
-        Route::post('/profile', [AccountController::class, 'updatePofile']);
+        Route::get('/profile', [AccountController::class, 'getProfile']);
+        Route::post('/profile', [AccountController::class, 'updateProfile']);
     });
 });
 
