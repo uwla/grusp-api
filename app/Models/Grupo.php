@@ -4,14 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Uwla\Ltags\Traits\Taggable as HasTags;
-use Uwla\Ltags\Contracts\Taggable as TaggableContract;
 use Uwla\Lacl\Traits\Permissionable;
-use Uwla\Lacl\Contracts\Permissionable as PermissionableContract;
+use Uwla\Ltags\Traits\Taggable;
 
-class Grupo extends Model implements TaggableContract, PermissionableContract
+class Grupo extends Model
 {
-    use HasFactory, HasTags, Permissionable;
+    use HasFactory, Taggable, Permissionable;
 
     /**
      * The attributes that are not mass assignable.
