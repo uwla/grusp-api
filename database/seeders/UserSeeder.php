@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(200)->create();
+        User::factory(200)->create();   // development only
+        User::createCrudPermissions();  // create permissions for CRUD actions
     }
 }

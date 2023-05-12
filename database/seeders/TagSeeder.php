@@ -3,14 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Tag;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
 class TagSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Run the database seeds.
      */
@@ -55,14 +52,24 @@ class TagSeeder extends Seeder
             'religião' => [
                 'cristianismo', 'espiritismo', 'budismo',
             ],
-
         ];
 
-        // all tags = parent tags + nested tags
-        $all = array_keys($tags) + Arr::flatten($tags);
+        $nested = Arr::flatten($tags);
+        $parent = array_keys($tags);
+        $all = array_merge($parent, $nested);
         Tag::createMany($all);
 
         foreach($tags as $parent => $children)
-            Tag::addTagTo($parent, Tag::findManyByName($children));
+            Tag::addTagTo($parent, Tag::findByName($children));
+
+        // não  faz  sentido  adicionar  aos  grupos  algumas  tags  tais   como
+        // departamento ou campus, pois estas são tags usadas  para  categorizar
+        // outras tags e não para categorizar grupos. Portanto, vamos  usar  uma
+        // tag para categorizar quais tags são tagáveis.
+        $taggable = Tag::createOne('taggable');
+        Tag::addTagTo($taggable, Tag::findByName($nested));
+
+        // por fim, crie as permissões para as tags
+        Tag::createCrudPermissions();
     }
 }

@@ -4,13 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Grupo;
 use App\Models\Tag;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GrupoSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Run the database seeds.
      */
@@ -21,5 +18,8 @@ class GrupoSeeder extends Seeder
 
         // add between 1 and 5 random tags to each grupo
         $grupos->each(fn($g) => $g->addTags($tags->random(random_int(1, 5))));
+
+        // create CRUD permissions for accessing grupos
+        Grupo::createCrudPermissions();
     }
 }
