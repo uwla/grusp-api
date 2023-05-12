@@ -20,7 +20,7 @@ class AccountController extends Controller
     /**
      * Update the profile of the authenticated user
      */
-    public function updatePofile(Request $request)
+    public function updateProfile(Request $request)
     {
         $user = $request->user();
         $request->validate([

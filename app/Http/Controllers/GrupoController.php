@@ -16,7 +16,7 @@ class GrupoController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(Grupo::class, 'grupo');
+        // $this->authorizeResource(Grupo::class, 'grupo');
     }
 
     /**
@@ -24,10 +24,7 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        $grupos = Grupo::withTags(Grupo::all());
-        foreach ($grupos as $g)
-            $g->tags = $g->tags->pluck('name');
-        return $grupos;
+        return Grupo::withTagNames(Grupo::all());
     }
 
     /**
@@ -46,7 +43,7 @@ class GrupoController extends Controller
         $grupo = Grupo::create($attributes);
 
         // set the Grupo tags
-        $tags = Tag::findManyByName($request->tags);
+        $tags = Tag::findByName($request->tags);
         if ($tags->count() > 0)
             $grupo->addTags($tags);
 
@@ -83,7 +80,7 @@ class GrupoController extends Controller
         $grupo->update($attributes);
 
         // set the Grupo tags
-        $tags = Tag::findManyByName($request->tags);
+        $tags = Tag::findByName($request->tags);
         if ($tags->count() > 0)
             $grupo->setTags($tags);
         else
@@ -108,7 +105,7 @@ class GrupoController extends Controller
      */
     public function rules()
     {
-        $tags = Tag::where('namespace', null)->get()->pluck('name');
+        $tags = Tag::taggedBy('taggable'); // only tags that are taggable
         $tag_rule = Rule::in($tags);
 
         return [
