@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -15,7 +16,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(200)->create();   // development only
+        // development only
+        $users = User::factory(200)->create();
+        $user_role = Role::where('name', 'user')->first();
+        User::addRoleToMany($user_role, $users);
+
         User::createCrudPermissions();  // create permissions for CRUD actions
     }
 }
