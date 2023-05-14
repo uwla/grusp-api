@@ -5,6 +5,7 @@ use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,8 +39,10 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     });
 });
 
-// we will redefine some routes here
-// because these routes should be public
-$options = ['only' => ['index', 'show']];
-Route::apiResource('/grupo', GrupoController::class, $options);
-Route::apiResource('/tag', TagController::class, $options);
+// public routes
+Route::group(['prefix' => 'public'], function() {
+    Route::get('/tags', [PublicController::class, 'tags']);
+    Route::get('/grupos', [PublicController::class, 'grupos']);
+});
+
+
