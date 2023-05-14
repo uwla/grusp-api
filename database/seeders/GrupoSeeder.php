@@ -14,7 +14,7 @@ class GrupoSeeder extends Seeder
     public function run(): void
     {
         $grupos = Grupo::factory(100)->create();
-        $tags = Tag::all();
+        $tags = Tag::taggedBy('taggable');
 
         // add between 1 and 5 random tags to each grupo
         $grupos->each(fn($g) => $g->addTags($tags->random(random_int(1, 5))));
