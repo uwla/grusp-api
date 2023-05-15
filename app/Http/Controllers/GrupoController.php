@@ -46,6 +46,7 @@ class GrupoController extends Controller
         {
             $tags = Tag::findByName($tags);
             $grupo->addTags($tags);
+            $grupo->tags = $tags->pluck('name');
         }
 
         // grant the user permission to access the Grupo
@@ -83,6 +84,7 @@ class GrupoController extends Controller
         if (is_array($request->tags)) {
             $tags = Tag::findByName($tags);
             $grupo->setTags($tags);
+            $grupo->tags = $tags->pluck('name');
         } else {
             $grupo->delAllTags();
         }
