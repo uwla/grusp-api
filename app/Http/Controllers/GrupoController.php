@@ -16,7 +16,7 @@ class GrupoController extends Controller
      */
     public function __construct()
     {
-        // $this->authorizeResource(Grupo::class, 'grupo');
+        $this->authorizeResource(Grupo::class, 'grupo');
     }
 
     /**
@@ -32,20 +32,21 @@ class GrupoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules());
+        $attributes = $request->validate($this->rules());
 
-        // get the attributes to create a Grupo
         // the tags are not attributes
-        $attributes = $request->validated();
         unset($attributes['tags']);
 
         // create the Grupo
         $grupo = Grupo::create($attributes);
 
         // set the Grupo tags
-        $tags = Tag::findByName($request->tags);
-        if ($tags->count() > 0)
+        $tags = $request->tags;
+        if (is_array($tags))
+        {
+            $tags = Tag::findByName($tags);
             $grupo->addTags($tags);
+        }
 
         // grant the user permission to access the Grupo
         $user = $request->user();
@@ -69,22 +70,22 @@ class GrupoController extends Controller
      */
     public function update(Request $request, Grupo $grupo)
     {
-       $request->validate($this->rules());
+        $attributes = $request->validate($this->rules());
 
-        // get the attributes to create a Grupo
         // the tags are not attributes
-        $attributes = $request->validated();
         unset($attributes['tags']);
 
         // update attributes
         $grupo->update($attributes);
 
         // set the Grupo tags
-        $tags = Tag::findByName($request->tags);
-        if ($tags->count() > 0)
+        $tags = $request->tags;
+        if (is_array($request->tags)) {
+            $tags = Tag::findByName($tags);
             $grupo->setTags($tags);
-        else
+        } else {
             $grupo->delAllTags();
+        }
 
         // return the updated Grupo
         return $grupo;
@@ -106,13 +107,13 @@ class GrupoController extends Controller
     public function rules()
     {
         $tags = Tag::taggedBy('taggable'); // only tags that are taggable
-        $tag_rule = Rule::in($tags);
+        $tag_rule = Rule::in($tags->pluck('name'));
 
         return [
             'titulo'    => 'required|string|min:2|max:200',
             'descricao' => 'required|string|max:5000',
             'tags'      => 'nullable|array|min:1|max:15',
-            'tags.*'    => ['string', $tag_rule],
+            'tags.*'    => $tag_rule,
         ];
     }
 }
