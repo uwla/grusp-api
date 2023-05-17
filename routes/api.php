@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 Route::group(['prefix' => 'public'], function() {
     Route::get('/tags', [PublicController::class, 'tags']);
     Route::get('/grupos', [PublicController::class, 'grupos']);
+    Route::get('/grupos/{grupo}', [PublicController::class, 'grupo']);
 });
 
 

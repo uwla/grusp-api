@@ -17,6 +17,15 @@ class PublicController extends Controller
     }
 
     /**
+     *
+     **/
+    public function grupo(Grupo $grupo)
+    {
+        $grupo->tags = $grupo->getTagNames();
+        return $grupo;
+    }
+
+    /**
      * Get the public tags in a hierachical structure.
      */
     public function tags()
