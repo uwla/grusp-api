@@ -49,6 +49,11 @@ class GrupoController extends Controller
             $grupo->tags = $tags->pluck('name');
         }
 
+        // upload file, if any
+       if ($request->hasFile('img')) {
+           $grupo->addMediaFromRequest('img')->toMediaCollection('cover_image');
+       }
+
         // grant the user permission to access the Grupo
         $user = $request->user();
         $grupo->createCrudPermissions();
@@ -114,6 +119,7 @@ class GrupoController extends Controller
         return [
             'titulo'    => 'required|string|min:2|max:200',
             'descricao' => 'required|string|max:5000',
+            'img'       => 'nullable|mimes:jpg,png',
             'tags'      => 'nullable|array|min:1|max:15',
             'tags.*'    => $tag_rule,
         ];
