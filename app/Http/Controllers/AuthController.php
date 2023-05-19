@@ -18,8 +18,17 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $request->validate($this->rules());
-        return User::create($request->validated());
+        // get the regular rules
+        $rules = $this->rules();
+
+        // add more rules
+        $rules['name'] = 'required|string|min:2|max:80';
+
+        // validate request
+        $attr = $request->validate($rules);
+
+        // create user using the validated attributes
+        return User::create($attr);
     }
 
     /**
