@@ -16,8 +16,8 @@ class GrupoFactory extends Factory
     public function definition(): array
     {
         return [
-            'titulo' => $this->faker->realText(50),
-            'descricao' => $this->faker->realText(300)
+            'titulo' => $this->faker->sentence(),
+            'descricao' => $this->faker->realText(600),
         ];
     }
 }
