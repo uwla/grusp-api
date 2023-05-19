@@ -9,6 +9,7 @@
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "lucascudo/laravel-pt-br-localization": "^2.0",
         "spatie/laravel-medialibrary": "^10.9",
         "uwla/lacl": "^1.7",
         "uwla/ltags": "^1.5"
