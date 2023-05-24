@@ -28,7 +28,12 @@ class AuthController extends Controller
         $attr = $request->validate($rules);
 
         // create user using the validated attributes
-        return User::create($attr);
+        $user = User::create($attr);
+
+        // add the default user role
+        $user->addRole('user');
+
+        return $user;
     }
 
     /**
