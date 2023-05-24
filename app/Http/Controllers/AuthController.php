@@ -38,15 +38,33 @@ class AuthController extends Controller
     {
         $request->validate($this->rules());
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        $user = User::where('email', $request->email)->first();
+
+        if ($user == null) {
+            $errorMessage =  'Usuário com este email não encontrado.';
+            $response = [
+                'errors' => [ 'email' => [$errorMessage] ],
+                'message' => $errorMessage
+            ];
+            return response($response, 404);
+        }
 
         if (! Hash::check($request->password, $user->password))
         {
-            return response('Login invalid', 503);
+           $errorMessage =  'Senha incorreta.';
+            $response = [
+                'errors' => [ 'password' => [$errorMessage] ],
+                'message' => $errorMessage
+            ];
+            return response($response, 503);
         }
 
         $token_name = Str::random(8);
-        return $user->createToken($token_name)->plainTextToken;
+        $token = $user->createToken($token_name)->plainTextToken;
+        return [
+            'token' => $token,
+            'user' => $user,
+        ];
     }
 
     /**
