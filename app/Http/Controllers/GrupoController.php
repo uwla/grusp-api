@@ -49,10 +49,18 @@ class GrupoController extends Controller
             $grupo->tags = $tags->pluck('name');
         }
 
-        // upload file, if any
+        // handle upload of the cover image (main image)
        if ($request->hasFile('img')) {
-           $grupo->addMediaFromRequest('img')->toMediaCollection('cover_image');
+           $grupo->addMediaFromRequest('img')
+                 ->toMediaCollection('cover_image');
        }
+
+        // handle upload of the images (additional images)
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
+            foreach ($images as $image)
+                $grupo->addMedia($image)->toMediaCollection('content_images');
+        }
 
         // grant the user permission to access the Grupo
         $user = $request->user();
@@ -68,6 +76,7 @@ class GrupoController extends Controller
      */
     public function show(Grupo $grupo)
     {
+        $grupo->tags = $grupo->getTagNames();
         return $grupo;
     }
 
@@ -93,6 +102,22 @@ class GrupoController extends Controller
         } else {
             $grupo->delAllTags();
         }
+
+        // handle upload of the cover image (main image)
+        if ($request->hasFile('img')) {
+            $grupo->clearMediaCollection('cover_image');
+            $grupo->addMediaFromRequest('img')
+                  ->toMediaCollection('cover_image');
+        }
+
+        // handle upload of the images (additional images)
+        if ($request->hasFile('images')) {
+            $grupo->clearMediaCollection('content_images');
+            $images = $request->file('images');
+            foreach ($images as $image)
+                $grupo->addMedia($image)->toMediaCollection('content_images');
+        }
+
 
         // return the updated Grupo
         return $grupo;
@@ -120,6 +145,8 @@ class GrupoController extends Controller
             'titulo'    => 'required|string|min:2|max:200',
             'descricao' => 'required|string|max:5000',
             'img'       => 'nullable|mimes:jpg,png',
+            'images'    => 'nullable|array|min:1|max:15',
+            'images.*'  => 'mimes:jpg,png',
             'tags'      => 'nullable|array|min:1|max:15',
             'tags.*'    => $tag_rule,
         ];

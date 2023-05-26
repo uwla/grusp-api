@@ -29,6 +29,12 @@ class PublicController extends Controller
         $grupo->img = $cover_image_url;
         unset($grupo->cover_image);
 
+        $content_images = $grupo->content_images;
+        $content_images_url = $content_images ?
+            $content_images->map(fn($img) => $img->getFullUrl()) : array();
+        $grupo->images = $content_images_url;
+        unset($grupo->content_images);
+
         return $grupo;
     }
 
