@@ -24,7 +24,7 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        return Grupo::withTagNames(Grupo::all());
+        return Grupo::withExtraData(Grupo::all());
     }
 
     /**
@@ -76,8 +76,7 @@ class GrupoController extends Controller
      */
     public function show(Grupo $grupo)
     {
-        $grupo->tags = $grupo->getTagNames();
-        return $grupo;
+        return $grupo->attachExtraData();
     }
 
     /**

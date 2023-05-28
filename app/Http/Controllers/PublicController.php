@@ -13,29 +13,15 @@ class PublicController extends Controller
      */
     public function grupos()
     {
-        return Grupo::withTagNames(Grupo::all());
+        return Grupo::withExtraData(Grupo::all());
     }
 
     /**
-     *
+     * Show the Grupo
      **/
     public function grupo(Grupo $grupo)
     {
-        $grupo->tags = $grupo->getTagNames();
-
-        // TODO: refactor this silly code
-        $cover_image = $grupo->cover_image;
-        $cover_image_url = $cover_image ? $cover_image->getFullUrl() : null;
-        $grupo->img = $cover_image_url;
-        unset($grupo->cover_image);
-
-        $content_images = $grupo->content_images;
-        $content_images_url = $content_images ?
-            $content_images->map(fn($img) => $img->getFullUrl()) : array();
-        $grupo->images = $content_images_url;
-        unset($grupo->content_images);
-
-        return $grupo;
+        return $grupo->attachExtraData();
     }
 
     /**

@@ -39,6 +39,6 @@ class AccountController extends Controller
     {
         $user = $request->user();
         $grupos = $user->getModels(Grupo::class);
-        return Grupo::withTagNames($grupos);
+        return Grupo::withExtraData($grupos);
     }
 }
