@@ -6,6 +6,7 @@ use App\Models\Grupo;
 use App\Rules\PasswordRule;
 use App\Rules\USPEmailRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -23,12 +24,27 @@ class AccountController extends Controller
     public function updateProfile(Request $request)
     {
         $user = $request->user();
-        $request->validate([
-            'name'     => 'required|string|max:50',
-            'email'    => ['required', 'email', new USPEmailRule()],
-            'password' => ['nullable', 'string', new PasswordRule()]
+        $attr = $request->validate([
+            'name'             => 'required|string|min:2|max:50',
+            'email'            => ['required', 'email', new USPEmailRule()],
+            'password'         => ['nullable', 'string', 'confirmed', new PasswordRule()],
+            'password_current' => ['required', 'string'],
         ]);
-        $user->update($request->validated());
+
+        if (! Hash::check($request->password_current, $user->password))
+        {
+            $errorMessage =  'Senha atual incorreta.';
+            $response = [
+                'errors'  => [ 'password_current' => [$errorMessage] ],
+                'message' => $errorMessage
+            ];
+            return response($response, 503);
+        }
+
+        // set password to the current, if new one not available
+        $attr['password'] ??= $attr['password_current'];
+
+        $user->update($attr);
         return $user;
     }
 

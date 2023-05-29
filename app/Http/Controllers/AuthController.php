@@ -56,7 +56,7 @@ class AuthController extends Controller
 
         if (! Hash::check($request->password, $user->password))
         {
-           $errorMessage =  'Senha incorreta.';
+            $errorMessage =  'Senha incorreta.';
             $response = [
                 'errors' => [ 'password' => [$errorMessage] ],
                 'message' => $errorMessage
