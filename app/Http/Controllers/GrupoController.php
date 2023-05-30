@@ -127,7 +127,11 @@ class GrupoController extends Controller
      */
     public function destroy(Grupo $grupo)
     {
-        $grupo->deleteThisModelPermissions();
+        // require user password before deleting the Grupo
+        $request = request();
+        $request->validate([ 'password' => 'required|current_password' ]);
+
+        $grupo->deletetThisModelPermissions();
         $grupo->delete();
         return $grupo;
     }
