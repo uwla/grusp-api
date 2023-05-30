@@ -23,6 +23,7 @@ class AuthController extends Controller
 
         // add more rules
         $rules['name'] = 'required|string|min:2|max:80';
+        $rules['password'][] = 'confirmed';
 
         // validate request
         $attr = $request->validate($rules);
@@ -61,7 +62,7 @@ class AuthController extends Controller
                 'errors' => [ 'password' => [$errorMessage] ],
                 'message' => $errorMessage
             ];
-            return response($response, 503);
+            return response($response, 403);
         }
 
         $token_name = Str::random(8);

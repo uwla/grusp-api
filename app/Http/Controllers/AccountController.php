@@ -6,7 +6,6 @@ use App\Models\Grupo;
 use App\Rules\PasswordRule;
 use App\Rules\USPEmailRule;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -28,18 +27,8 @@ class AccountController extends Controller
             'name'             => 'required|string|min:2|max:50',
             'email'            => ['required', 'email', new USPEmailRule()],
             'password'         => ['nullable', 'string', 'confirmed', new PasswordRule()],
-            'password_current' => ['required', 'string'],
+            'password_current' => ['required', 'current_password'],
         ]);
-
-        if (! Hash::check($request->password_current, $user->password))
-        {
-            $errorMessage =  'Senha atual incorreta.';
-            $response = [
-                'errors'  => [ 'password_current' => [$errorMessage] ],
-                'message' => $errorMessage
-            ];
-            return response($response, 503);
-        }
 
         // set password to the current, if new one not available
         $attr['password'] ??= $attr['password_current'];

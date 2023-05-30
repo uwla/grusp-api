@@ -209,6 +209,7 @@ return [
         'description' => 'descrição',
         'password_confirmation' => 'confirmação da senha',
         'current_password' => 'senha atual',
+        'password_current' => 'senha atual',
         'complement' => 'complemento',
         'modality' => 'modalidade',
         'category' => 'categoria',
