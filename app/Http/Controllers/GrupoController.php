@@ -143,15 +143,26 @@ class GrupoController extends Controller
     {
         $tags = Tag::taggedBy('taggable'); // only tags that are taggable
         $tag_rule = Rule::in($tags->pluck('name'));
+        $optional_text_rules = 'nullable|string|max:300';
 
         return [
-            'titulo'    => 'required|string|min:2|max:200',
-            'descricao' => 'required|string|max:5000',
-            'img'       => 'nullable|mimes:jpg,png',
-            'images'    => 'nullable|array|min:1|max:15',
-            'images.*'  => 'mimes:jpg,png',
-            'tags'      => 'nullable|array|min:1|max:15',
-            'tags.*'    => $tag_rule,
+            'titulo'      => 'required|string|min:2|max:200',
+            'descricao'   => 'required|string|max:5000',
+            'img'         => 'nullable|mimes:jpg,png',
+            'images'      => 'nullable|array|min:1|max:15',
+            'images.*'    => 'mimes:jpg,png',
+            'tags'        => 'nullable|array|min:1|max:15',
+            'tags.*'      => $tag_rule,
+
+            // the following fields are unstructured data
+            // because I did not want to restrict users in their answer format,
+            // and wanted to give them more flexibility to suit their needs
+            'contato'     => $optional_text_rules,
+            'horario'     => $optional_text_rules,
+            'links'       => $optional_text_rules,
+            'lugar'       => $optional_text_rules,
+            'mensalidade' => $optional_text_rules,
+            'publico'     => $optional_text_rules,
         ];
     }
 }

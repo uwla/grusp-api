@@ -15,12 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->text('descricao');
-            $table->text('publico_alvo')->nullable();
-            $table->text('horario_de_encontro')->nullable();
-            $table->text('ponto_de_encontro')->nullable();
-            $table->text('redes_sociais')->nullable();
-            $table->text('contato')->nullable();
-            $table->integer('mensalidade')->nullable();
+
+            // campos opcionais
+            $table->text('contato')->nullable();        // informações de contato
+            $table->text('horario')->nullable();        // horários de encontro
+            $table->text('links')->nullable();          // links para redes sociais, grupos de mensagem, etc
+            $table->text('lugar')->nullable();          // ponto de encontro
+            $table->text('mensalidade')->nullable();    // mensalidade
+            $table->text('publico')->nullable();        // público alvo
+
             $table->timestamps();
         });
     }
