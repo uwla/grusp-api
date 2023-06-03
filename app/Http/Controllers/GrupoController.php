@@ -33,7 +33,11 @@ class GrupoController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = $request->validate($this->rules());
+        // main image is required to create a grupo
+        $rules = $this->rules();
+        $rules['img'][] = 'required';
+
+        $attributes = $request->validate($rules);
 
         // the tags are not attributes
         unset($attributes['tags']);
@@ -86,6 +90,10 @@ class GrupoController extends Controller
     public function update(Request $request, Grupo $grupo)
     {
         $rules = $this->rules();
+
+        // main image is not required to create a grupo
+        $rules = $this->rules();
+        $rules['img'][] = 'nullable';
 
         // to update a Grupo, we need to add a rule to ensure proper deletion of images
         $content_images = $grupo->content_images();
@@ -170,7 +178,7 @@ class GrupoController extends Controller
         return [
             'titulo'      => 'required|string|min:2|max:200',
             'descricao'   => 'required|string|max:5000',
-            'img'         => 'required|mimes:jpg|dimensions:min_width=350,max_width=450,ratio=1/1',
+            'img'         => ['mimes:jpg', 'dimensions:min_width=350,max_width=450,ratio=1/1'],
             'images'      => 'nullable|array|min:1|max:15',
             'images.*'    => 'mimes:jpg,png',
             'tags'        => 'nullable|array|min:1|max:15',
