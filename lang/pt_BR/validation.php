@@ -214,7 +214,15 @@ return [
         'modality' => 'modalidade',
         'category' => 'categoria',
         'blood_type' => 'tipo sanguíneo',
-        'birth_date' => 'data de nascimento'
+        'birth_date' => 'data de nascimento',
+
+        // fix accent
+        'titulo' => 'título',
+        'descricao' => 'descrição',
+        'horario' => 'horário',
+
+        // other fixes
+        'img' => 'imagem',
     ],
 
 ];
