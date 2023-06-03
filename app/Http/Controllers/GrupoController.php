@@ -6,6 +6,7 @@ use App\Models\Grupo;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GrupoController extends Controller
 {
@@ -84,7 +85,20 @@ class GrupoController extends Controller
      */
     public function update(Request $request, Grupo $grupo)
     {
-        $attributes = $request->validate($this->rules());
+        $rules = $this->rules();
+
+        // to update a Grupo, we need to add a rule to ensure proper deletion of images
+        $content_images = $grupo->content_images();
+        if ($content_images)
+        {
+            $ids = $content_images->pluck('id');
+            $delete_image_rule = Rule::in($ids);
+            $rules['images_del'] = 'nullable|array|min:1|max:20';
+            $rules['images_del.*'] = $delete_image_rule;
+        }
+
+        // validate it
+        $attributes = $request->validate($rules);
 
         // the tags are not attributes
         unset($attributes['tags']);
@@ -111,12 +125,20 @@ class GrupoController extends Controller
 
         // handle upload of the images (additional images)
         if ($request->hasFile('images')) {
-            $grupo->clearMediaCollection('content_images');
             $images = $request->file('images');
             foreach ($images as $image)
                 $grupo->addMedia($image)->toMediaCollection('content_images');
         }
 
+        // handle deletion of the images
+        if ($request->has('images_del'))
+        {
+            // Laravel Media Library will delete the file associated with the model
+            // upon calling the `delete()` method on the model
+            $ids = $request->images_del;
+            foreach ($ids as $id)
+                Media::find($id)->delete();
+        }
 
         // return the updated Grupo
         return $grupo;
@@ -148,7 +170,7 @@ class GrupoController extends Controller
         return [
             'titulo'      => 'required|string|min:2|max:200',
             'descricao'   => 'required|string|max:5000',
-            'img'         => 'nullable|mimes:jpg,png',
+            'img'         => 'required|mimes:jpg|dimensions:min_width=350,max_width=450,ratio=1/1',
             'images'      => 'nullable|array|min:1|max:15',
             'images.*'    => 'mimes:jpg,png',
             'tags'        => 'nullable|array|min:1|max:15',

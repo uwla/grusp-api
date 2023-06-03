@@ -48,19 +48,19 @@ class Grupo extends Model implements HasMedia
     {
         // get the urls of the media
         $cover_image = $this->cover_image;
-        $cover_image_url = $cover_image ? $cover_image->getFullUrl() : null;
+        $cover_image = $cover_image ? $cover_image->getFullUrl() : null;
 
+        $mapImg = fn($img) => ['id' => $img->id, 'url' => $img->getFullUrl()];
         $content_images = $this->content_images;
-        $content_images_url = $content_images ?
-            $content_images->map(fn($img) => $img->getFullUrl()) : array();
+        $content_images = $content_images ? $content_images->map($mapImg) : array();
 
         // delete cumbersome attributes (we want just the url)
         unset($this->cover_image);
         unset($this->content_images);
 
         // attach the url
-        $this->img = $cover_image_url;
-        $this->images = $content_images_url ?? [];
+        $this->img = $cover_image;
+        $this->images = $content_images ?? [];
 
         return $this;
     }
