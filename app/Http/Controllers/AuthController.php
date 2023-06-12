@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\PersonalAccessToken as Token;
 
 // basic auth controller
 class AuthController extends Controller
@@ -39,6 +40,8 @@ class AuthController extends Controller
 
     /**
      * Login the user by issuing a new token
+     *
+     * @return mixed
      */
     public function login(Request $request)
     {
@@ -71,6 +74,40 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user,
         ];
+    }
+
+
+    /**
+     * Login an administrator user
+     */
+    public function loginAdmin(Request $request)
+    {
+        $response = $this->login($request);
+        if (!is_array($response))
+            return $response;
+
+        $user = $response['user'];
+
+        // if user has admin roles, return the user along with its roles
+        if ($user->hasAdministrationRole())
+        {
+            $user->roles = $user->getRoleNames();
+            return $response;
+        }
+
+        // else...
+        // first, delete the token
+        $tokenPlain = $response['token'];
+        $token = $user->tokens()->where('id', $tokenPlain)->first();
+        Token::where('id', $token->id)->delete();
+
+        // then, return the error
+        $errorMessage =  'Este usuário não tem privilégios administrativos.';
+        $response = [
+            'errors' => [ 'email' => [$errorMessage] ],
+            'message' => $errorMessage
+        ];
+        return response($response, 403);
     }
 
     /**

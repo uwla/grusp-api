@@ -44,6 +44,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    /**
+     * The roles of administrators
+     *
+     * @var array<string>
+     */
+    protected $administration_roles = [
+        'admin', 'manager'
+    ];
+
+    /**
+     * Determine whether this user has any administration role
+     *
+     * @return bool
+     */
+    public function hasAdministrationRole()
+    {
+        return $this->hasAnyRole($this->administration_roles);
+    }
+
     /**
      * Encrypt the password.
      *

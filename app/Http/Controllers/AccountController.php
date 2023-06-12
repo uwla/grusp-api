@@ -14,7 +14,10 @@ class AccountController extends Controller
      */
     public function getProfile(Request $request)
     {
-        return $request->user();
+        $user = $request->user();
+        if ($user->hasAdministrationRole())
+            $user->roles = $user->getRoleNames();
+        return $user;
     }
 
     /**
