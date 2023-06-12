@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tag;
 use App\Models\Role;
 use App\Models\Grupo;
 use App\Models\Permission;
@@ -34,6 +35,7 @@ class RoleSeeder extends Seeder
         $user->addPermission(Grupo::getCreatePermission());
 
         // managers have access to all grupos
+        $manager->addPermissions(Tag::getCrudPermissions());
         $manager->addPermissions(Grupo::getCrudPermissions());
 
         // admins have all permissions

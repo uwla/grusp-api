@@ -13,6 +13,11 @@ class TagController extends Controller
         return Tag::class;
     }
 
+    public function index()
+    {
+        return Tag::withTagNames(Tag::where('namespace', 'grupo')->get());
+    }
+
     public function rules()
     {
         return [

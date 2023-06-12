@@ -56,18 +56,19 @@ class TagSeeder extends Seeder
 
         $nested = Arr::flatten($tags);
         $parent = array_keys($tags);
-        $all = array_merge($parent, $nested);
-        Tag::createMany($all);
-
-        foreach($tags as $parent => $children)
-            Tag::addTagTo($parent, Tag::findByName($children));
 
         // não  faz  sentido  adicionar  aos  grupos  algumas  tags  tais   como
         // departamento ou campus, pois estas são tags usadas  para  categorizar
-        // outras tags e não para categorizar grupos. Portanto, vamos  usar  uma
-        // tag para categorizar quais tags são tagáveis.
-        $taggable = Tag::createOne('taggable');
-        Tag::addTagTo($taggable, Tag::findByName($nested));
+        // outras tags e não para categorizar grupos. Portanto, essas tags terão
+        // um namespace diferente
+        Tag::createMany($parent, 'tag');
+        Tag::createMany($nested, 'grupo');
+
+        foreach($tags as $parent => $children)
+        {
+            $tag = Tag::findByName($parent, 'tag');
+            Tag::addTagTo($tag, Tag::findByName($children, 'grupo'));
+        }
 
         // por fim, crie as permissões para as tags
         Tag::createCrudPermissions();

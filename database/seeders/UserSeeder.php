@@ -17,9 +17,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // development only
-        $users = User::factory(200)->create();
+        $users = User::factory(50)->create();
         $user_role = Role::where('name', 'user')->first();
         User::addRoleToMany($user_role, $users);
+
+        $adm = User::factory()->createOne();
+        $adm->update(['email' => 'adm@usp.br']);
+        $adm->addRole('admin');
 
         User::createCrudPermissions();  // create permissions for CRUD actions
     }

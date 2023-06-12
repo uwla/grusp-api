@@ -29,11 +29,8 @@ class PublicController extends Controller
      */
     public function tags()
     {
-        // take all tags which are tags and group them by their parent tag
-        $tags = Tag::byTags(Tag::taggedBy('taggable'));
-
-        // unset the taggable tag, since this is an internal tag
-        unset($tags['taggable']);
+        // take all tags which are Grupo tags
+        $tags = Tag::byTags(Tag::where('namespace', 'grupo')->get());
 
         // we want just the name of the tags, not their ids or other information
         foreach ($tags as $key => $value)

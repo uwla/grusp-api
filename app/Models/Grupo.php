@@ -24,6 +24,16 @@ class Grupo extends Model implements HasMedia
 
 
     /**
+     * Get the namespace of the tags asssociated with this model.
+     *
+     * @return string
+     */
+    public function getTagNamespace()
+    {
+        return 'grupo';
+    }
+
+    /**
      * The cover image of the Grupo.
      */
     public function cover_image()

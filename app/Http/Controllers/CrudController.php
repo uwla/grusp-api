@@ -13,10 +13,10 @@ Trait CrudController
     {
         // this handles authorization:
 
-        // $modelClass = $this->model();
-        // $array = explode('\\', $modelClass);
-        // $slug = strtolower(end($array));
-        // $this->authorizeResource($modelClass, $slug);
+        $modelClass = $this->model();
+        $array = explode('\\', $modelClass);
+        $slug = strtolower(end($array));
+        $this->authorizeResource($modelClass, $slug);
     }
 
     /**
