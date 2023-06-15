@@ -161,7 +161,7 @@ class GrupoController extends Controller
         $request = request();
         $request->validate([ 'password' => 'required|current_password' ]);
 
-        $grupo->deletetThisModelPermissions();
+        $grupo->deleteThisModelPermissions();
         $grupo->delete();
         return $grupo;
     }
