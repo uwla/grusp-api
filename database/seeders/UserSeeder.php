@@ -24,7 +24,5 @@ class UserSeeder extends Seeder
         $adm = User::factory()->createOne();
         $adm->update(['email' => 'adm@usp.br']);
         $adm->addRole('admin');
-
-        User::createCrudPermissions();  // create permissions for CRUD actions
     }
 }

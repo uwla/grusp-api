@@ -24,7 +24,7 @@ class Grupo extends Model implements HasMedia
 
 
     /**
-     * Get the namespace of the tags asssociated with this model.
+     * Get the namespace of the tags associated with this model.
      *
      * @return string
      */
@@ -99,8 +99,8 @@ class Grupo extends Model implements HasMedia
     /**
      * Get the given grupos with extra data (tags and media)
      *
-     * @param  Illuminate\Database\Eloquent\Collection<Grupo>
-     * @return Illuminate\Database\Eloquent\Collection<Grupo>
+     * @param  \Illuminate\Database\Eloquent\Collection<Grupo>
+     * @return \Illuminate\Database\Eloquent\Collection<Grupo>
      **/
     public static function withExtraData($grupos)
     {

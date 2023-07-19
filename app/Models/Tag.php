@@ -10,6 +10,17 @@ class Tag extends BaseTag
 {
     use HasFactory, Permissionable;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'namespace',
+    ];
+
     public function getTagNamespace()
     {
         return 'tag';

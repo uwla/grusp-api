@@ -69,8 +69,5 @@ class TagSeeder extends Seeder
             $tag = Tag::findByName($parent, 'tag');
             Tag::addTagTo($tag, Tag::findByName($children, 'grupo'));
         }
-
-        // por fim, crie as permissões para as tags
-        Tag::createCrudPermissions();
     }
 }

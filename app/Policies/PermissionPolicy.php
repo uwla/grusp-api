@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Tag;
+use App\Models\Permission;
 use Uwla\Lacl\Traits\ResourcePolicy;
 use Uwla\Lacl\Contracts\ResourcePolicy as ResourcePolicyContract;
 
-class TagPolicy implements ResourcePolicyContract
+class PermissionPolicy implements ResourcePolicyContract
 {
     use ResourcePolicy;
 
@@ -15,6 +15,6 @@ class TagPolicy implements ResourcePolicyContract
      */
     public function getResourceModel()
     {
-        return Tag::class;
+        return Permission::class;
     }
 }

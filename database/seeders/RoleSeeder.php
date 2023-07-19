@@ -15,8 +15,6 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::createCrudPermissions();
-
         // some basic roles
         $user = Role::create([
             'name' => 'user',

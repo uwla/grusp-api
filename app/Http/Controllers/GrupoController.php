@@ -10,8 +10,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GrupoController extends Controller
 {
-    use CrudController;
-
     /**
      * Create a new controller instance.
      */
@@ -49,7 +47,7 @@ class GrupoController extends Controller
         $tags = $request->tags;
         if (is_array($tags))
         {
-            $tags = Tag::findByName($tags);
+            $tags = Tag::findByName($tags, 'grupo');
             $grupo->addTags($tags);
             $grupo->tags = $tags->pluck('name');
         }
@@ -117,7 +115,7 @@ class GrupoController extends Controller
         // set the Grupo tags
         $tags = $request->tags;
         if (is_array($request->tags)) {
-            $tags = Tag::findByName($tags);
+            $tags = Tag::findByName($tags, 'grupo');
             $grupo->setTags($tags);
             $grupo->tags = $tags->pluck('name');
         } else {
@@ -153,15 +151,15 @@ class GrupoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the specified resource.
      */
     public function destroy(Grupo $grupo)
     {
-        // require user password before deleting the Grupo
         $request = request();
-        $request->validate([ 'password' => 'required|current_password' ]);
-
+        $request->validate(['password' => 'required|current_password']);
         $grupo->deleteThisModelPermissions();
+        $grupo->clearMediaCollection('cover_images');
+        $grupo->clearMediaCollection('content_images');
         $grupo->delete();
         return $grupo;
     }
@@ -171,7 +169,7 @@ class GrupoController extends Controller
      */
     public function rules()
     {
-        $tags = Tag::taggedBy('taggable'); // only tags that are taggable
+        $tags = Tag::where('namespace', 'grupo')->get();
         $tag_rule = Rule::in($tags->pluck('name'));
         $optional_text_rules = 'nullable|string|max:300';
 
@@ -182,7 +180,7 @@ class GrupoController extends Controller
             'images'      => 'nullable|array|min:1|max:15',
             'images.*'    => 'mimes:jpg,png',
             'tags'        => 'nullable|array|min:1|max:15',
-            'tags.*'      => $tag_rule,
+            'tags.*'      => [$tag_rule],
 
             // the following fields are unstructured data
             // because I did not want to restrict users in their answer format,

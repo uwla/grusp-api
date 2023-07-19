@@ -25,7 +25,7 @@ class PublicController extends Controller
     }
 
     /**
-     * Get the public tags in a hierachical structure.
+     * Get the public tags in a hierarchical structure.
      */
     public function tags()
     {
@@ -37,5 +37,14 @@ class PublicController extends Controller
             $tags[$key] = collect($value)->pluck('name');
 
         return $tags;
+    }
+
+    /**
+     * Get the tag categories
+     */
+    public function categories()
+    {
+        $tags = Tag::where('namespace', 'tag')->get();
+        return $tags->pluck('name');
     }
 }
