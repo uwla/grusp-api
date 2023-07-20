@@ -46,7 +46,6 @@ class User extends Authenticatable implements HasPermissionContract, HasRoleCont
         'email_verified_at' => 'datetime',
     ];
 
-
     /**
      * The roles of administrators
      *
@@ -77,11 +76,20 @@ class User extends Authenticatable implements HasPermissionContract, HasRoleCont
         $this->attributes['password'] = Hash::make($password);
     }
 
+    /**
+     * Get the role class for ACL.
+     *
+     * @return string
+     */
     public static function Role()
     {
         return Role::class;
     }
-
+    /**
+     * Get the permission class for ACL.
+     *
+     * @return string
+     */
     public static function Permission()
     {
         return Permission::class;

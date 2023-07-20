@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Uwla\Lacl\Traits\Permissionable;
 use Uwla\Ltags\Traits\Taggable;
 
 class Grupo extends Model implements HasMedia
@@ -21,7 +20,6 @@ class Grupo extends Model implements HasMedia
      * @var array<int, string>
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
 
     /**
      * Get the namespace of the tags associated with this model.
@@ -99,8 +97,8 @@ class Grupo extends Model implements HasMedia
     /**
      * Get the given grupos with extra data (tags and media)
      *
-     * @param  \Illuminate\Database\Eloquent\Collection<Grupo>
-     * @return \Illuminate\Database\Eloquent\Collection<Grupo>
+     * @param  \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      **/
     public static function withExtraData($grupos)
     {
