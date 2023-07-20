@@ -71,7 +71,7 @@ class GrupoController extends Controller
         $grupo->attachCrudPermissions($user);
 
         // return the Grupo
-        return $grupo;
+        return $grupo->attachMediaUrl();
     }
 
     /**
@@ -147,8 +147,8 @@ class GrupoController extends Controller
         }
 
         // return the updated Grupo
-        return $grupo;
-    }
+            return $grupo->attachMediaUrl();
+        }
 
     /**
      * Delete the specified resource.
