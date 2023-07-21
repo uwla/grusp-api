@@ -43,8 +43,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $attr = $request->validate($this->rules());
-        $model = $this->model()::create($attr);
+        $rules = $this->rules();
+        $rules['password'] = 'required|string|min:10|max:50';
+        $attr = $request->validate($rules);
+        $model = User::create($attr);
         $model->addRoles($request->roles);
         $model->roles = $request->roles;
         return $model;
@@ -53,14 +55,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $model)
+    public function update(Request $request, User $user)
     {
         $attr = $request->validate($this->rules());
-        $model = $this->model()::find($model);
-        $model->update($attr);
-        $model->setRoles($request->roles);
-        $model->roles = $request->roles;
-        return $model;
+        $user->update($attr);
+        $user->setRoles($request->roles);
+        $user->roles = $request->roles;
+        return $user;
     }
 
     /**

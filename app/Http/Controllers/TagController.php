@@ -54,10 +54,9 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $model)
+    public function update(Request $request, Tag $tag)
     {
         $validated = $request->validate($this->rules());
-        $tag = $this->model()::find($model);
         $tag->update($validated);
         $tag->setTags([$request->category]);
         $tag->category = $request->category;
