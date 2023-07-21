@@ -44,6 +44,9 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
         Route::get('/grupos', [AccountController::class, 'grupos']);
         Route::get('/profile', [AccountController::class, 'getProfile']);
         Route::post('/profile', [AccountController::class, 'updateProfile']);
+        Route::get('/verify/{id}/{hash}', [AccountController::class, 'verifyEmail'])
+            ->middleware('signed')
+            ->name('verification.verify');
     });
 });
 
@@ -54,4 +57,3 @@ Route::group(['prefix' => 'public'], function() {
     Route::get('/grupos/{grupo}', [PublicController::class, 'grupo']);
     Route::get('/categorias', [PublicController::class, 'categories']);
 });
-

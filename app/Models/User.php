@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\VerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +13,7 @@ use Uwla\Lacl\Traits\PermissionableHasRole;
 use Uwla\Lacl\Contracts\HasPermissionContract;
 use Uwla\Lacl\Contracts\HasRoleContract;
 
-class User extends Authenticatable implements HasPermissionContract, HasRoleContract
+class User extends Authenticatable implements HasPermissionContract, HasRoleContract, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, PermissionableHasRole;
 
@@ -52,7 +53,8 @@ class User extends Authenticatable implements HasPermissionContract, HasRoleCont
      * @var array<string>
      */
     protected $administration_roles = [
-        'admin', 'manager'
+        'admin',
+        'manager'
     ];
 
     /**
@@ -74,6 +76,17 @@ class User extends Authenticatable implements HasPermissionContract, HasRoleCont
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Send the queued email verification notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SendEmailJob;
-use App\Mail\WelcomeMail;
 use App\Models\User;
 use App\Rules\PasswordRule;
 use App\Rules\USPEmailRule;
@@ -12,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken as Token;
+use Illuminate\Auth\Events\Registered;
 
 // basic auth controller
 class AuthController extends Controller
@@ -37,8 +36,8 @@ class AuthController extends Controller
         // add the default user role
         $user->addRole('user');
 
-        // send welcome mail
-        SendEmailJob::dispatch(new WelcomeMail($user), $user->email);
+        // send email verification
+        $user->sendEmailVerificationNotification();
 
         // return user
         return $user;

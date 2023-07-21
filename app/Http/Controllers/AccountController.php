@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Rules\PasswordRule;
 use App\Rules\USPEmailRule;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -48,5 +49,14 @@ class AccountController extends Controller
         $user = $request->user();
         $grupos = $user->getModels(Grupo::class);
         return Grupo::withExtraData($grupos);
+    }
+
+    /**
+     * Verify the user's email.
+     */
+    public function verifyEmail(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+        return response('', 204);
     }
 }
