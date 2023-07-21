@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmailJob;
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use App\Rules\PasswordRule;
 use App\Rules\USPEmailRule;
@@ -35,6 +37,10 @@ class AuthController extends Controller
         // add the default user role
         $user->addRole('user');
 
+        // send welcome mail
+        SendEmailJob::dispatch(new WelcomeMail($user), $user->email);
+
+        // return user
         return $user;
     }
 
@@ -75,7 +81,6 @@ class AuthController extends Controller
             'user' => $user,
         ];
     }
-
 
     /**
      * Login an administrator user
@@ -129,7 +134,8 @@ class AuthController extends Controller
     public function rules()
     {
         return [
-            'email' => ['required', 'email', new USPEmailRule()],
+            // 'email' => ['required', 'email', new USPEmailRule()],
+            'email' => ['required', 'email'],
             'password' => ['required', 'string', new PasswordRule()],
         ];
     }
