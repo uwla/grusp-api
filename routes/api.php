@@ -21,39 +21,75 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-# auth routes
-Route::post('/auth/login',       [AuthController::class, 'login'])->name('login');
-Route::post('/auth/login_admin', [AuthController::class, 'loginAdmin']);
-Route::post('/auth/register',    [AuthController::class, 'register']);
+// attributes for the routes
+$attributes = [
+    'auth' => [
+        'prefix' => 'auth',
+        'controller' => AuthController::class
+    ],
+    'account' => [
+        'prefix' => 'account',
+        'controller' => AccountController::class
+    ],
+    'public' => [
+        'prefix' => 'public',
+        'controller' => PublicController::class
+    ],
+];
 
-Route::group(['middleware' => 'auth:sanctum'], function() {
-    // more auth routes
-    Route::post('/auth/logout', [AuthController::class, 'logout']);
+// ─────────────────────────────────────────────────────────────────────────────
+// auth routes
 
-    // resource routes
-    Route::apiResource('/permission', PermissionController::class, ['only' => 'index']);
+Route::group($attributes['auth'], function () {
+    Route::group(['middleware' => 'guest'], function () {
+        Route::post('register', 'register')->name('register');
+        Route::post('login', 'login')->name('login');
+        Route::post('login/admin', 'loginAdmin');
+    });
+
+    Route::post('logout', 'logout')->middleware('auth:sanctum');
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// account routes
+
+Route::group($attributes['account'], function () {
+   // account verification
+    Route::get('verify/{id}/{hash}', 'verifyEmail')
+        ->middleware(['auth:sanctum', 'signed'])
+        ->name('verification.verify');
+
+    // profile
+    Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+        Route::get('/grupos', 'grupos');
+        Route::get('/profile', 'getProfile');
+        Route::post('/profile', 'updateProfile');
+    });
+
+    // password resets
+    Route::group(['prefix' => 'password'], function () {
+        Route::post('/link', 'sendResetLinkEmail');
+        Route::post('/reset', 'resetPassword');
+    })->middleware('guest');
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// resource routes
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/permission', [PermissionController::class, 'index']);
     Route::apiResource('/grupo', GrupoController::class);
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/tag', TagController::class);
-
-    // other routes
-
-    // user account
-    Route::group(['prefix' => 'account'], function() {
-        Route::get('/grupos', [AccountController::class, 'grupos']);
-        Route::get('/profile', [AccountController::class, 'getProfile']);
-        Route::post('/profile', [AccountController::class, 'updateProfile']);
-        Route::get('/verify/{id}/{hash}', [AccountController::class, 'verifyEmail'])
-            ->middleware('signed')
-            ->name('verification.verify');
-    });
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
 // public routes
-Route::group(['prefix' => 'public'], function() {
-    Route::get('/tags', [PublicController::class, 'tags']);
-    Route::get('/grupos', [PublicController::class, 'grupos']);
-    Route::get('/grupos/{grupo}', [PublicController::class, 'grupo']);
-    Route::get('/categorias', [PublicController::class, 'categories']);
+
+Route::group($attributes['public'], function () {
+    Route::get('/tags', 'tags');
+    Route::get('/grupos', 'grupos');
+    Route::get('/grupos/{grupo}', 'grupo');
+    Route::get('/categorias', 'categories');
 });

@@ -10,7 +10,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken as Token;
-use Illuminate\Auth\Events\Registered;
 
 // basic auth controller
 class AuthController extends Controller

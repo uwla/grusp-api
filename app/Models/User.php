@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Hash;
@@ -87,6 +88,17 @@ class User extends Authenticatable implements HasPermissionContract, HasRoleCont
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
+    }
+
+    /**
+     * Send a password reset notification to the user.
+     *
+     * @param  string  $token
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = env('FRONTEND_URL') . '/conta/resetar-senha/' . $token;
+        $this->notify(new ResetPassword($url));
     }
 
     /**
