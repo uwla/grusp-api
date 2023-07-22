@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Str;
 
 class VerifyEmail extends VerifyEmailNotification implements ShouldQueue
 {
@@ -18,9 +19,17 @@ class VerifyEmail extends VerifyEmailNotification implements ShouldQueue
      */
     protected function verificationUrl($notifiable)
     {
-        $id = $notifiable->getKey();
-        $hash = sha1($notifiable->getEmailForVerification());
+        $apiUrl = parent::verificationUrl($notifiable);
 
-        return env('FRONTEND_URL') . "/resetar-senha/$id/$hash";
+        $id = Str::between($apiUrl, 'verify/', '/');
+        $hash = Str::between($apiUrl, "verify/{$id}/", '?');
+        $expires = Str::between($apiUrl, 'expires=', '&');
+        $signature = Str::after($apiUrl, 'signature=');
+
+        $frontend = env('FRONTEND_URL');
+        $query = "id={$id}&hash={$hash}&expires={$expires}&signature={$signature}";
+        $frontendUrl = "{$frontend}/conta/resetar-senha?{$query}";
+
+        return $frontendUrl;
     }
 }

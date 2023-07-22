@@ -60,7 +60,7 @@ class AccountController extends Controller
     public function verifyEmail(EmailVerificationRequest $request)
     {
         $request->fulfill();
-        return response('', 204);
+        return response(['status' => 'verified'], 200);
     }
 
     /**
@@ -74,7 +74,7 @@ class AccountController extends Controller
         $status = Password::broker()->sendResetLink($credentials);
 
         if ($status == Password::RESET_LINK_SENT)
-            return response('', 204);
+            return response(['success' => 'true'], 200);
 
         return response([
             'errors' => [

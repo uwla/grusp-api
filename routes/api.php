@@ -50,6 +50,10 @@ Route::group($attributes['auth'], function () {
     Route::post('logout', 'logout')->middleware('auth:sanctum');
 });
 
+Route::get('/verified', function() {
+    return ['verified' => 'ok!'];
+})->middleware(['auth:sanctum', 'verified']);
+
 // ─────────────────────────────────────────────────────────────────────────────
 // account routes
 
@@ -60,7 +64,7 @@ Route::group($attributes['account'], function () {
         ->name('verification.verify');
 
     // profile
-    Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+    Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/grupos', 'grupos');
         Route::get('/profile', 'getProfile');
         Route::post('/profile', 'updateProfile');
