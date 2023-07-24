@@ -5,18 +5,23 @@ namespace App\Models;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
-use Uwla\Lacl\Traits\PermissionableHasRole;
 use Uwla\Lacl\Contracts\HasPermissionContract;
 use Uwla\Lacl\Contracts\HasRoleContract;
+use Uwla\Lacl\Traits\PermissionableHasRole;
 
-class User extends Authenticatable implements HasPermissionContract, HasRoleContract, MustVerifyEmail
+class User
+extends Authenticatable
+implements HasPermissionContract, HasRoleContract, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, PermissionableHasRole;
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // ATTRIBUTES
 
     /**
      * The attributes that are mass assignable.
@@ -49,6 +54,20 @@ class User extends Authenticatable implements HasPermissionContract, HasRoleCont
     ];
 
     /**
+     * Encrypt the password.
+     *
+     * @param $password
+     * @return void
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // ACCESS CONTROL
+
+    /**
      * The roles of administrators
      *
      * @var array<string>
@@ -69,15 +88,26 @@ class User extends Authenticatable implements HasPermissionContract, HasRoleCont
     }
 
     /**
-     * Encrypt the password.
+     * Get the role class for ACL.
      *
-     * @param $password
-     * @return void
+     * @return string
      */
-    public function setPasswordAttribute($password)
+    public static function Role()
     {
-        $this->attributes['password'] = Hash::make($password);
+        return \App\Models\Role::class;
     }
+    /**
+     * Get the permission class for ACL.
+     *
+     * @return string
+     */
+    public static function Permission()
+    {
+        return \App\Models\Permission::class;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // NOTIFICATIONS
 
     /**
      * Send the queued email verification notification.
@@ -97,26 +127,63 @@ class User extends Authenticatable implements HasPermissionContract, HasRoleCont
      */
     public function sendPasswordResetNotification($token): void
     {
-        $url = env('FRONTEND_URL') . '/conta/resetar-senha/' . $token;
-        $this->notify(new ResetPassword($url));
+        $this->notify(new ResetPassword($token));
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // VOTES
+
+    /**
+     * Upvote a grupo.
+     *
+     * @param Grupo $grupo
+     * @return void
+     */
+    public function upvote(Grupo $grupo)
+    {
+        $this->unvote($grupo);
+        Vote::create([
+            'vote' => true,
+            'user_id' => $this->id,
+            'grupo_id' => $grupo->id,
+        ]);
     }
 
     /**
-     * Get the role class for ACL.
+     * Downvote a grupo.
      *
-     * @return string
+     * @param Grupo $grupo
+     * @return void
      */
-    public static function Role()
+    public function downvote(Grupo $grupo)
     {
-        return Role::class;
+        $this->unvote($grupo);
+        Vote::create([
+            'vote' => false,
+            'user_id' => $this->id,
+            'grupo_id' => $grupo->id,
+        ]);
     }
+
     /**
-     * Get the permission class for ACL.
+     * Revoke grupo vote.
      *
-     * @return string
+     * @param Grupo $grupo
+     * @return void
      */
-    public static function Permission()
+    public function unvote(Grupo $grupo)
     {
-        return Permission::class;
+        Vote::where([
+            'user_id' => $this->id,
+            'grupo_id' => $grupo->id,
+        ])->delete();
+    }
+
+    /**
+     * Get this User's votes.
+     */
+    public function votes()
+    {
+        return $this->hasMany(Vote::class, 'user_id');
     }
 }

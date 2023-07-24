@@ -36,7 +36,7 @@ class Grupo extends Model implements HasMedia
      */
     public function cover_image()
     {
-       return $this->hasOne(Media::class, 'model_id')->where('collection_name', 'cover_image');
+        return $this->hasOne(Media::class, 'model_id')->where('collection_name', 'cover_image');
     }
 
     /**
@@ -44,8 +44,40 @@ class Grupo extends Model implements HasMedia
      */
     public function content_images()
     {
-       return $this->hasMany(Media::class, 'model_id')->where('collection_name', 'content_images');
+        return $this->hasMany(Media::class, 'model_id')->where('collection_name', 'content_images');
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // VOTES
+
+    /**
+     * Get how many upvotes this Grupo has.
+     *
+     * @return int
+     */
+    public function upvotes()
+    {
+        return Vote::where([
+            'grupo_id' => $this->id,
+            'vote' => true,
+        ])->count();
+    }
+
+    /**
+     * Get how many upvotes this Grupo has.
+     *
+     * @return int
+     */
+    public function downvotes()
+    {
+        return Vote::where([
+            'grupo_id' => $this->id,
+            'vote' => false,
+        ])->count();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // ATTACH ADDITIONAL INFORMATION TO GRUPO
 
     /**
      * Attach the urls of the media associated with this model.
@@ -85,7 +117,19 @@ class Grupo extends Model implements HasMedia
     }
 
     /**
-     * Attach extra data to this model (tags and media)
+     * Attach the votes count of this model
+     *
+     * @return $this
+     **/
+    public function attachVotes()
+    {
+        $this->upvotes = $this->upvotes();
+        $this->downvotes = $this->downvotes();
+        return $this;
+    }
+
+    /**
+     * Attach extra data to this model (tags, media, and votes)
      *
      * @return $this
      **/
@@ -102,6 +146,39 @@ class Grupo extends Model implements HasMedia
      **/
     public static function withExtraData($grupos)
     {
-        return Grupo::withTagNames($grupos)->map(fn($g) => $g->attachMediaUrl());
+        $grupos = Grupo::withTagNames($grupos);
+        $grupos = Grupo::withVotes($grupos);
+        $grupos = $grupos->map(fn($g) => $g->attachMediaUrl());
+        return $grupos;
+    }
+
+    /**
+     * Get the given grupos with their votes.
+     *
+     * @param  \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
+     **/
+    public static function withVotes($grupos)
+    {
+        $gids = $grupos->pluck('id');
+        $votes = Vote::whereIn('grupo_id', $gids)->get();
+
+        $id2grupo = [];
+        foreach ($grupos as $g)
+            $id2grupo[$g->id] = $g; foreach ($grupos as $g) {
+            $g->upvotes = 0;
+            $g->downvotes = 0;
+        }
+
+        foreach ($votes as $vote) {
+            $gid = $vote->grupo_id;
+            $grupo = $id2grupo[$gid];
+            if ($vote->vote)
+                $grupo->upvotes += 1;
+            else
+                $grupo->downvotes += 1;
+        }
+
+        return $grupos;
     }
 }
