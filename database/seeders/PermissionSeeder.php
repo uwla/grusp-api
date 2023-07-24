@@ -7,6 +7,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
@@ -22,5 +23,6 @@ class PermissionSeeder extends Seeder
         Role::createCrudPermissions();
         Tag::createCrudPermissions();
         User::createCrudPermissions();
+        Vote::createCrudPermissions();
     }
 }

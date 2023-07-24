@@ -6,6 +6,7 @@ use App\Models\Tag;
 use App\Models\Role;
 use App\Models\Grupo;
 use App\Models\Permission;
+use App\Models\Vote;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -29,10 +30,11 @@ class RoleSeeder extends Seeder
             'description' => 'Administrator',
         ]);
 
-        // any user can create a grupo
+        // any user can create a grupo or vote on a grupo
+        $user->addPermission(Vote::getCreatePermission());
         $user->addPermission(Grupo::getCreatePermission());
 
-        // managers have access to all grupos
+        // managers have access to all grupos and tags
         $manager->addPermissions(Tag::getCrudPermissions());
         $manager->addPermissions(Grupo::getCrudPermissions());
 

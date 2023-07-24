@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-    use HasFactory;
+    use HasFactory, Permissionable;
 
     /**
      * Attributes that are not mass assignable.

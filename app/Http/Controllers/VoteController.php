@@ -23,15 +23,19 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
-        // validate request
+        // validation rules
         $rules = [
             'vote' => 'required|boolean',
-            'grupo_id' => 'required|integer'
+            'grupo_id' => 'required|integer',
         ];
+
+        // validate request
         $request->validate($rules);
 
-        // get the Grupo
+        // get the Grupo to be voted on
         $grupo = Grupo::find($request->grupo_id);
+
+        // check if grupo actually exists
         if ($grupo == null)
         {
             return response([
@@ -41,15 +45,40 @@ class VoteController extends Controller
             ], 422);
         }
 
-        // get the user
+        // get the user making the request
         $user = $request->user();
 
-        // vote
-        if ($request->vote)
-            $vote = $user->upvote($grupo);
-        else
-            $vote = $user->downvote($grupo);
+        // the attributes of the new vote
+        $attr = [
+            'user_id' => $user->id,
+            'grupo_id' => $grupo->id,
+        ];
 
+        // check if user has already voted here..
+        $vote = Vote::where($attr)->first();
+
+        // if vote already exists... this should be a update request (not store)
+        if ($vote)
+            return $this->update($request, $vote);
+
+        // create the vote
+        $attr['vote'] = $request->vote;
+        $vote = Vote::create($attr);
+
+        // grant the user permission to access the modify/delete the vote
+        $permissions = $vote->createCrudPermissions();
+        $user->addPermissions($permissions);
+
+        // return the vote
+        return $vote;
+    }
+
+
+    public function update(Request $request, Vote $vote)
+    {
+        $rules = ['vote' => 'required|boolean'];
+        $request->validate($rules);
+        $vote->update(['vote' => $request->vote]);
         return $vote;
     }
 
@@ -58,9 +87,7 @@ class VoteController extends Controller
      */
     public function destroy(Vote $vote)
     {
-        $user = auth()->user();
-        if ($vote->user_id != $user->id)
-            return new AuthorizationException;
+        $vote->deleteThisModelPermissions();
         $vote->delete();
         return $vote;
     }

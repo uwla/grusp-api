@@ -87,7 +87,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/tag', TagController::class);
-    Route::apiResource('/vote', VoteController::class, ['only' => ['index', 'store', 'destroy']]);
+    Route::apiResource('/vote', VoteController::class, ['except' => 'show']);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

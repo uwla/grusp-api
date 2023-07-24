@@ -133,50 +133,35 @@ implements HasPermissionContract, HasRoleContract, MustVerifyEmail
     // ─────────────────────────────────────────────────────────────────────────
     // VOTES
 
-    /**
-     * Upvote a grupo.
-     *
-     * @param Grupo $grupo
-     * @return Vote
-     */
-    public function upvote(Grupo $grupo)
-    {
-        $this->unvote($grupo);
-        return Vote::create([
-            'vote' => true,
-            'user_id' => $this->id,
-            'grupo_id' => $grupo->id,
-        ]);
-    }
 
     /**
-     * Downvote a grupo.
+     * Vote in the grupo.
      *
      * @param Grupo $grupo
+     * @param bool $vote
+     *
      * @return Vote
      */
-    public function downvote(Grupo $grupo)
+    public function vote(Grupo $grupo, $vote)
     {
-        $this->unvote($grupo);
-        return Vote::create([
-            'vote' => false,
+        $attr = [
             'user_id' => $this->id,
             'grupo_id' => $grupo->id,
-        ]);
-    }
+        ];
 
-    /**
-     * Unvote a Grupo.
-     *
-     * @param Grupo $grupo
-     * @return void
-     */
-    public function unvote(Grupo $grupo)
-    {
-        Vote::where([
-            'user_id' => $this->id,
-            'grupo_id' => $grupo->id,
-        ])->delete();
+        // check if vote model already exists
+        $model = Vote::where($attr)->first();
+
+        if ($model) {
+            // update vote if it exists
+            $model->update(['vote' => $vote]);
+        } else {
+            // or create a new vote
+            $attr['vote'] = $vote;
+            $model = Vote::create($attr);
+        }
+
+        return $model;
     }
 
     /**

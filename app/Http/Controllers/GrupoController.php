@@ -67,8 +67,8 @@ class GrupoController extends Controller
 
         // grant the user permission to access the Grupo
         $user = $request->user();
-        $grupo->createCrudPermissions();
-        $grupo->attachCrudPermissions($user);
+        $permissions = $grupo->createCrudPermissions();
+        $user->addPermissions($permissions);
 
         // return the Grupo
         return $grupo->attachMediaUrl();
