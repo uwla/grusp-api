@@ -137,12 +137,12 @@ implements HasPermissionContract, HasRoleContract, MustVerifyEmail
      * Upvote a grupo.
      *
      * @param Grupo $grupo
-     * @return void
+     * @return Vote
      */
     public function upvote(Grupo $grupo)
     {
         $this->unvote($grupo);
-        Vote::create([
+        return Vote::create([
             'vote' => true,
             'user_id' => $this->id,
             'grupo_id' => $grupo->id,
@@ -153,12 +153,12 @@ implements HasPermissionContract, HasRoleContract, MustVerifyEmail
      * Downvote a grupo.
      *
      * @param Grupo $grupo
-     * @return void
+     * @return Vote
      */
     public function downvote(Grupo $grupo)
     {
         $this->unvote($grupo);
-        Vote::create([
+        return Vote::create([
             'vote' => false,
             'user_id' => $this->id,
             'grupo_id' => $grupo->id,
@@ -166,7 +166,7 @@ implements HasPermissionContract, HasRoleContract, MustVerifyEmail
     }
 
     /**
-     * Revoke grupo vote.
+     * Unvote a Grupo.
      *
      * @param Grupo $grupo
      * @return void

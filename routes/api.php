@@ -8,6 +8,7 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,6 +87,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/tag', TagController::class);
+    Route::apiResource('/vote', VoteController::class, ['only' => ['index', 'store', 'destroy']]);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

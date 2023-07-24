@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Rules\PasswordRule;
 use App\Rules\USPEmailRule;
 // use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
