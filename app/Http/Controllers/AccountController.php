@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Rules\PasswordRule;
 use App\Rules\USPEmailRule;
 // use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -57,11 +57,23 @@ class AccountController extends Controller
     /**
      * Verify the user's email.
      */
-    public function verifyEmail(EmailVerificationRequest $request)
+    public function verifyEmail(Request $request)
     {
-        $request->fulfill();
+        $id = $request->route('id');
+        $user = User::findOrFail($id);
+
+        $routeHash = (string) $request->route('hash');
+        $userHash = sha1($user->getEmailForVerification());
+
+        if (! hash_equals($routeHash, $userHash))
+            response(['status' => 'request error'], 422);
+
+        if (! $user->markEmailAsVerified())
+            response(['status' => 'server error'], 400);
+
         return response(['status' => 'verified'], 200);
     }
+
 
     /**
      * Send an email with a link to reset the user's password.
@@ -78,7 +90,7 @@ class AccountController extends Controller
 
         return response([
             'errors' => [
-                'email' => 'Unable to send reset password link'
+                'email' => ['Unable to send reset password link']
             ]
         ], 400);
     }
@@ -95,7 +107,10 @@ class AccountController extends Controller
         ]);
 
         $attributes = $request->only([
-            'email', 'password', 'password_confirmation', 'token'
+            'email',
+            'password',
+            'password_confirmation',
+            'token'
         ]);
 
         $updateUserPasswordCallback = function (User $user, string $password) {

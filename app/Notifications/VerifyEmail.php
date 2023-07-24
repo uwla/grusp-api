@@ -28,7 +28,7 @@ class VerifyEmail extends VerifyEmailNotification implements ShouldQueue
 
         $frontend = env('FRONTEND_URL');
         $query = "id={$id}&hash={$hash}&expires={$expires}&signature={$signature}";
-        $frontendUrl = "{$frontend}/conta/resetar-senha?{$query}";
+        $frontendUrl = "{$frontend}/conta/verificar?{$query}";
 
         return $frontendUrl;
     }

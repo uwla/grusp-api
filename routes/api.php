@@ -60,7 +60,7 @@ Route::get('/verified', function() {
 Route::group($attributes['account'], function () {
    // account verification
     Route::get('verify/{id}/{hash}', 'verifyEmail')
-        ->middleware(['auth:sanctum', 'signed'])
+        ->middleware('signed')
         ->name('verification.verify');
 
     // profile
@@ -71,10 +71,10 @@ Route::group($attributes['account'], function () {
     });
 
     // password resets
-    Route::group(['prefix' => 'password'], function () {
+    Route::group(['middleware' => 'guest', 'prefix' => 'password'], function () {
         Route::post('/link', 'sendResetLinkEmail');
-        Route::post('/reset', 'resetPassword');
-    })->middleware('guest');
+        Route::post('/reset', 'resetPassword')->name('password.reset');
+    });
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
