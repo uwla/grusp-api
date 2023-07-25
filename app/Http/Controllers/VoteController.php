@@ -17,15 +17,6 @@ class VoteController extends Controller
     }
 
     /**
-     * Display a listing of the user's votes.
-     */
-    public function index()
-    {
-        $user = auth()->user();
-        return Vote::where('user_id', $user->id)->get();
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

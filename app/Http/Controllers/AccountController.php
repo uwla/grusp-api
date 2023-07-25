@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Grupo;
 use App\Models\User;
+use App\Models\Vote;
 use App\Rules\PasswordRule;
 use App\Rules\USPEmailRule;
 // use Illuminate\Auth\Events\PasswordReset;
@@ -51,6 +52,15 @@ class AccountController extends Controller
         $user = $request->user();
         $grupos = $user->getModels(Grupo::class);
         return Grupo::withExtraData($grupos);
+    }
+
+    /**
+     * Get the votes made by the user making the request.
+     */
+    public function votes()
+    {
+        $user = auth()->user();
+        return Vote::where('user_id', $user->id)->get();
     }
 
     /**

@@ -66,6 +66,7 @@ Route::group($attributes['account'], function () {
 
     // profile
     Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::get('/votes', 'votes');
         Route::get('/grupos', 'grupos');
         Route::get('/profile', 'getProfile');
         Route::post('/profile', 'updateProfile');
@@ -87,7 +88,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/user', UserController::class);
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/tag', TagController::class);
-    Route::apiResource('/vote', VoteController::class, ['except' => 'show']);
+    Route::apiResource('/vote', VoteController::class, ['except' => ['index', 'show']]);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
