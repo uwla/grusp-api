@@ -5,10 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Vote;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class VoteController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Vote::class, 'vote');
+    }
+
     /**
      * Display a listing of the user's votes.
      */
@@ -73,7 +80,9 @@ class VoteController extends Controller
         return $vote;
     }
 
-
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Vote $vote)
     {
         $rules = ['vote' => 'required|boolean'];
