@@ -171,6 +171,7 @@ class Grupo extends Model implements HasMedia
         {
             $grupos = Grupo::withVotes($grupos);
             $grupos = Grupo::withImages($grupos);
+            $grupos = Grupo::withComments($grupos);
             $grupos = Grupo::withTagNames($grupos);
         }
         return $grupos;
@@ -187,8 +188,8 @@ class Grupo extends Model implements HasMedia
         $id2grupo = [];
         foreach ($grupos as $g)
         {
-            $g->cover_image = null;
-            $g->content_images = collect([]);
+            $g->img = null;
+            $g->images = collect([]);
             $id2grupo[$g->id] = $g;
         }
 
@@ -204,10 +205,10 @@ class Grupo extends Model implements HasMedia
             $grupo = $id2grupo[$gid];
 
             if ($media->collection_name == 'cover_image')
-                $grupo->cover_image = $url;
+                $grupo->img = $url;
 
             else if ($media->collection_name == 'content_images')
-                $grupo->content_images->add($url);
+                $grupo->images->add($url);
         }
 
         return $grupos;
@@ -241,6 +242,53 @@ class Grupo extends Model implements HasMedia
                 $grupo->upvotes += 1;
             else
                 $grupo->downvotes += 1;
+        }
+
+        return $grupos;
+    }
+
+
+    /**
+     * Get the given grupos along with their comments.
+     *
+     * @param \Illuminate\Database\Eloquent\Collection $grupos
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function withComments($grupos)
+    {
+        $gids = $grupos->pluck('id');
+        $comments = Comment::whereIn('grupo_id', $gids)->get();
+        $uids = $comments->pluck('user_id');
+        $users = User::whereIn('id', $uids)->get();
+
+        $id2user = [];
+        foreach ($users as $u)
+            $id2user[$u->id] = $u;
+
+        $id2grupo = [];
+        foreach ($grupos as $g)
+        {
+            $g->comments = collect([]);
+            $id2grupo[$g->id] = $g;
+        }
+
+        foreach ($comments as $c)
+        {
+            // get the ids of the models
+            $uid = $c->user_id;
+            $gid = $c->grupo_id;
+
+            // get user and grupo
+            $u = $id2user[$uid];
+            $g = $id2grupo[$gid];
+
+            // set author name in the comment, remove other fields
+            $c->author = $u->name;
+            unset($c->user_id);
+            unset($c->grupo_id);
+
+            // add the comment to the grupo model
+            $g->comments->add($c);
         }
 
         return $grupos;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,5 +50,15 @@ class Comment extends Model
         foreach ($comments as $c)
             unset($c->grupo_id);
         return $comments;
+    }
+
+    /**
+     * Serialize the date attributes of this model.
+     *
+     * @param DateTimeInterface $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date){
+        return $date->format('Y-m-d h:i:s');
     }
 }

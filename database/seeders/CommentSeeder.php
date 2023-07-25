@@ -24,10 +24,13 @@ class CommentSeeder extends Seeder
             $c_uids = $uids->random($n);
             foreach ($c_uids as $c_uid)
             {
+                $date = $faker->dateTime();
                 $comment = [
                     'comment' => $faker->sentence(10),
                     'user_id' => $c_uid,
                     'grupo_id' => $gid,
+                    'updated_at' => $date,
+                    'created_at' => $date,
                 ];
                 $toCreate[] = $comment;
             }
