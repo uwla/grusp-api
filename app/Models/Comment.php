@@ -11,6 +11,13 @@ class Comment extends Model
     use HasFactory, Permissionable;
 
     /**
+     * Attributes that are not mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Get the given comments with their author names.
      *
      * @param  \Illuminate\Database\Eloquent\Collection $comments
