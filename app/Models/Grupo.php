@@ -135,8 +135,11 @@ class Grupo extends Model implements HasMedia
      **/
     public function attachExtraData()
     {
-        return $this->attachTags()->attachMediaUrl();
+        return $this->attachTags()->attachMediaUrl()->attachVotes();
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // ATTACH ADDITION INFORMATION TO MULTIPLE GRUPOS
 
     /**
      * Get the given grupos with extra data (tags and media)
@@ -146,9 +149,49 @@ class Grupo extends Model implements HasMedia
      **/
     public static function withExtraData($grupos)
     {
-        $grupos = Grupo::withTagNames($grupos);
-        $grupos = Grupo::withVotes($grupos);
-        $grupos = $grupos->map(fn($g) => $g->attachMediaUrl());
+        if ($grupos->count() > 0)
+        {
+            $grupos = Grupo::withVotes($grupos);
+            $grupos = Grupo::withImages($grupos);
+            $grupos = Grupo::withTagNames($grupos);
+        }
+        return $grupos;
+    }
+
+    /**
+     * Get the given grupos with their votes.
+     *
+     * @param  \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
+     **/
+    public static function withImages($grupos)
+    {
+        $id2grupo = [];
+        foreach ($grupos as $g)
+        {
+            $g->cover_image = null;
+            $g->content_images = collect([]);
+            $id2grupo[$g->id] = $g;
+        }
+
+        $ids = $grupos->pluck('ids');
+        $mediaFiles = Media::whereIn('model_id', $ids)
+            ->where('model_type', Grupo::class)
+            ->get();
+
+        foreach ($mediaFiles as $media)
+        {
+            $url = $media->original_url;
+            $gid = $media->model_id;
+            $grupo = $id2grupo[$gid];
+
+            if ($media->collection_name == 'cover_image')
+                $grupo->cover_image = $url;
+
+            else if ($media->collection_name == 'content_images')
+                $grupo->content_images->add($url);
+        }
+
         return $grupos;
     }
 
@@ -165,7 +208,10 @@ class Grupo extends Model implements HasMedia
 
         $id2grupo = [];
         foreach ($grupos as $g)
-            $id2grupo[$g->id] = $g; foreach ($grupos as $g) {
+            $id2grupo[$g->id] = $g;
+
+        foreach ($grupos as $g)
+        {
             $g->upvotes = 0;
             $g->downvotes = 0;
         }
