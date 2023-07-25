@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PublicController;
@@ -66,6 +67,7 @@ Route::group($attributes['account'], function () {
 
     // profile
     Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::get('/comments', 'comments');
         Route::get('/votes', 'votes');
         Route::get('/grupos', 'grupos');
         Route::get('/profile', 'getProfile');
@@ -89,6 +91,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/tag', TagController::class);
     Route::apiResource('/vote', VoteController::class, ['except' => ['index', 'show']]);
+    Route::apiResource('/comment', CommentController::class, ['except' => ['index', 'show']]);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

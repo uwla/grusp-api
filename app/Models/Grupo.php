@@ -80,6 +80,20 @@ class Grupo extends Model implements HasMedia
     // ATTACH ADDITIONAL INFORMATION TO GRUPO
 
     /**
+     * Attach the comments users made on this Grupo.
+     *
+     * @return $this
+     **/
+    public function attachComments()
+    {
+        $comments = Comment::where('grupo_id', $this->id)->get();
+        $comments = Comment::withAuthorNames($comments);
+        $comments = Comment::withoutGrupoId($comments);
+        $this->comments = $comments;
+        return $this;
+    }
+
+    /**
      * Attach the urls of the media associated with this model.
      *
      * @return $this
@@ -135,7 +149,11 @@ class Grupo extends Model implements HasMedia
      **/
     public function attachExtraData()
     {
-        return $this->attachTags()->attachMediaUrl()->attachVotes();
+        return $this
+            ->attachTags()
+            ->attachVotes()
+            ->attachMediaUrl()
+            ->attachComments();
     }
 
     // ─────────────────────────────────────────────────────────────────────────

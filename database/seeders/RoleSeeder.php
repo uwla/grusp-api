@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\Role;
 use App\Models\Grupo;
@@ -33,6 +34,7 @@ class RoleSeeder extends Seeder
         // any user can create a grupo or vote on a grupo
         $user->addPermission(Vote::getCreatePermission());
         $user->addPermission(Grupo::getCreatePermission());
+        $user->addPermission(Comment::getCreatePermission());
 
         // managers have access to all grupos and tags
         $manager->addPermissions(Tag::getCrudPermissions());

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             GrupoSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }

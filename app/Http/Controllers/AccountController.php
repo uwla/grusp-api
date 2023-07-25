@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Grupo;
 use App\Models\User;
 use App\Models\Vote;
@@ -61,6 +62,15 @@ class AccountController extends Controller
     {
         $user = auth()->user();
         return Vote::where('user_id', $user->id)->get();
+    }
+
+    /**
+     * Get the comments made by the user making the request.
+     */
+    public function comments()
+    {
+        $user = auth()->user();
+        return Comment::where('user_id', $user->id)->get();
     }
 
     /**
