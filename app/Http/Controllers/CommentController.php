@@ -13,7 +13,7 @@ class CommentController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(Comment::class, 'vote');
+        $this->authorizeResource(Comment::class, 'comment');
     }
 
     /**
@@ -60,20 +60,25 @@ class CommentController extends Controller
         $permissions = $comment->createCrudPermissions();
         $user->addPermissions($permissions);
 
+        // the user id of the author comment shall not be public
+        // but the author name must be public
+        $comment->author = $user->name;
+        unset($comment->user_id);
+
         // return the comment
         return $comment;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Comment $comment)
-    {
-        $rules = [ 'comment' => 'required|string|min:3|max:500' ];
-        $request->validate($rules);
-        $comment->update(['comment' => $request->comment]);
-        return $comment;
-    }
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(Request $request, Comment $comment)
+    // {
+    //     $rules = [ 'comment' => 'required|string|min:3|max:500' ];
+    //     $request->validate($rules);
+    //     $comment->update(['comment' => $request->comment]);
+    //     return $comment;
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -81,6 +86,7 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->deleteThisModelPermissions();
+        $comment->delete();
         return $comment;
     }
 }
