@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\PermissionController;
@@ -67,9 +68,10 @@ Route::group($attributes['account'], function () {
 
     // profile
     Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::get('/bookmarks', 'bookmarks');
         Route::get('/comments', 'comments');
-        Route::get('/votes', 'votes');
         Route::get('/grupos', 'grupos');
+        Route::get('/votes', 'votes');
         Route::get('/profile', 'getProfile');
         Route::post('/profile', 'updateProfile');
     });
@@ -92,6 +94,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/tag', TagController::class);
     Route::apiResource('/vote', VoteController::class, ['except' => ['index', 'show']]);
     Route::apiResource('/comment', CommentController::class, ['except' => ['index', 'show']]);
+
+    // bookmarks follow a different logic
+    Route::post('/bookmark/{grupo}', [BookmarkController::class, 'store']);
+    Route::delete('/bookmark/{grupo}', [BookmarkController::class, 'destroy']);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
 use App\Models\Comment;
 use App\Models\Grupo;
 use App\Models\User;
@@ -72,6 +73,27 @@ class AccountController extends Controller
         $user = auth()->user();
         return Comment::where('user_id', $user->id)->get();
     }
+
+    /**
+     * Get the bookmarks of the user making the request.
+     */
+    public function bookmarks()
+    {
+        $user = auth()->user();
+        return Bookmark::where('user_id', $user->id)->pluck('grupo_id');
+    }
+
+    /**
+     * Get the grupos bookmarked by the user making the request.
+     */
+    public function bookmarked()
+    {
+        $ids = $this->bookmarks();
+        return Grupo::whereIn('id', $ids)->get();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Account verification
 
     /**
      * Verify the user's email.
