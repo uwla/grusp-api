@@ -22,4 +22,11 @@ class Vote extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Attributes that hidden in requests.
+     *
+     * @var array
+     */
+    protected $hidden = ['user_id'];
 }

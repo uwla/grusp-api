@@ -18,6 +18,13 @@ class Comment extends Model
     protected $guarded = [];
 
     /**
+     * Attributes that hidden in requests.
+     *
+     * @var array
+     */
+    protected $hidden = ['user_id'];
+
+    /**
      * Get the given comments with their author names.
      *
      * @param  \Illuminate\Database\Eloquent\Collection $comments

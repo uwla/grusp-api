@@ -38,6 +38,9 @@ class AuthController extends Controller
         // send email verification
         $user->sendEmailVerificationNotification();
 
+        // id should not be sent in the response
+        unset($user->id);
+
         // return user
         return $user;
     }
@@ -72,8 +75,13 @@ class AuthController extends Controller
             return response($response, 403);
         }
 
+        // create login token
         $token_name = Str::random(8);
         $token = $user->createToken($token_name)->plainTextToken;
+
+        // forget tue user id from the login
+        unset($user->id);
+
         return [
             'token' => $token,
             'user' => $user,
@@ -94,6 +102,9 @@ class AuthController extends Controller
         // if user has admin roles, return the user along with its roles
         if ($user->hasAdministrationRole())
         {
+            // forget the user id from the login
+            unset($user->id);
+
             $user->roles = $user->getRoleNames();
             return $response;
         }

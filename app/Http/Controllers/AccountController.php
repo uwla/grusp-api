@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Password;
 
 class AccountController extends Controller
 {
+    // ─────────────────────────────────────────────────────────────────────────
+    // User Profile
+
     /**
      * Get the profile of the authenticated user
      */
@@ -23,6 +26,10 @@ class AccountController extends Controller
         $user = $request->user();
         if ($user->hasAdministrationRole())
             $user->roles = $user->getRoleNames();
+
+        // forget the id
+        unset($user->id);
+
         return $user;
     }
 
@@ -42,9 +49,17 @@ class AccountController extends Controller
         // set password to the current, if new one not available
         $attr['password'] ??= $attr['password_current'];
 
+        // update the user
         $user->update($attr);
+
+        // again, forget the id
+        unset($user->id);
+
         return $user;
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Models associated with the user (his grupos, comments, votes, bookmarks)
 
     /**
      * Get the grupos owned by the user making the request
@@ -135,6 +150,9 @@ class AccountController extends Controller
             ]
         ], 400);
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Password reset
 
     /**
      *  Reset the user's password.
