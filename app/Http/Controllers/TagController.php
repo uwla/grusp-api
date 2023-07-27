@@ -21,13 +21,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::withTagNames(Tag::where('namespace', 'grupo')->get());
-        foreach ($tags as $tag)
-        {
-            $tag->category = $tag->tags->first();
-            unset($tag->tags);
-        }
-        return $tags;
+        return Tag::withCategories(Tag::where('namespace', 'grupo')->get());
     }
 
     /**

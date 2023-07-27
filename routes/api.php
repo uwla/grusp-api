@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\PermissionController;
@@ -93,6 +94,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/role', RoleController::class);
     Route::apiResource('/tag', TagController::class);
     Route::apiResource('/vote', VoteController::class, ['except' => ['index', 'show']]);
+    Route::apiResource('/category', CategoryController::class);
     Route::apiResource('/comment', CommentController::class, ['except' => ['index', 'show']]);
 
     // bookmarks follow a different logic

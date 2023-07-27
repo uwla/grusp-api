@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Grupo;
 use App\Models\Permission;
@@ -23,6 +24,7 @@ class PermissionSeeder extends Seeder
         Permission::createViewAnyPermission();
         Role::createCrudPermissions();
         Tag::createCrudPermissions();
+        Category::createCrudPermissions();
         User::createCrudPermissions();
         Vote::createCrudPermissions();
         Comment::createCrudPermissions();
