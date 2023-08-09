@@ -8,5 +8,5 @@ namespace App\Models;
  */
 class Category extends Tag
 {
-    //
+    protected $table = 'tags';
 }
