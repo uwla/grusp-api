@@ -79,9 +79,6 @@ class AuthController extends Controller
         $token_name = Str::random(8);
         $token = $user->createToken($token_name)->plainTextToken;
 
-        // forget tue user id from the login
-        unset($user->id);
-
         return [
             'token' => $token,
             'user' => $user,
