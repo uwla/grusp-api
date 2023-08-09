@@ -15,6 +15,10 @@ class VoteSeeder extends Seeder
      */
     public function run(): void
     {
+        // don't seed votes in production
+        if (app()->isProduction())
+            return;
+
         $uids = User::all()->pluck('id');
         $gids = Grupo::all()->pluck('id');
         $toCreate = [];

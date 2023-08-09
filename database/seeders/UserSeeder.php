@@ -16,13 +16,25 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // development only
-        $users = User::factory(50)->create();
-        $user_role = Role::where('name', 'user')->first();
-        User::addRoleToMany($user_role, $users);
+        // create many users in development only
+        if (app()->isLocal())
+        {
+            $users = User::factory(50)->create();
+            $user_role = Role::where('name', 'user')->first();
+            User::addRoleToMany($user_role, $users);
+        }
 
-        $adm = User::factory()->createOne();
-        $adm->update(['email' => 'adm@usp.br']);
-        $adm->addRole('admin');
+        $adm_email = env('ADM_EMAIL', 'null');
+        $adm_pass = env('ADM_PASS', 'null');
+        if ($adm_email !== null && $adm_pass !== null)
+        {
+            $adm = User::create([
+                'name'     => 'admin',
+                'email'    => $adm_email,
+                'password' => $adm_pass,
+                'email_verified_at' => now(),
+            ]);
+            $adm->addRole('admin');
+        }
     }
 }

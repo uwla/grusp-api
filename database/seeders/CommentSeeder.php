@@ -14,6 +14,10 @@ class CommentSeeder extends Seeder
      */
     public function run(): void
     {
+        // don't seed comments in production
+        if (app()->isProduction())
+            return;
+
         $uids = User::all()->pluck('id');
         $gids = Grupo::all()->pluck('id');
         $toCreate = [];

@@ -13,7 +13,7 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
-        // alguams tags básicas aqui...
+        // algumas tags básicas aqui...
         // obviamente, mais tags podem ser adicionadas
         $tags = [
             'cultura' => [
@@ -21,10 +21,10 @@ class TagSeeder extends Seeder
                 'fotografia',
             ],
             // from https://www5.usp.br/institucional/escolas-faculdades-e-institutos/
-            'campus' => [
-                'Bauru', 'Lorena', 'Piracicaba', 'Pirassununga',
-                'Ribeirão Preto', 'Santos', 'São Carlos', 'São Paulo'
-            ],
+            // 'campus' => [
+            //     'Bauru', 'Lorena', 'Piracicaba', 'Pirassununga',
+            //     'Ribeirão Preto', 'Santos', 'São Carlos', 'São Paulo'
+            // ],
             'departamento' => [
                 'EACH', 'ECA', 'EE', 'EEFE', 'FAU', 'FCF', 'FD', 'FE', 'FEA',
                 'FFLCH', 'FM', 'FMVZ', 'FO', 'FSP', 'IAG', 'IB', 'ICB', 'IEA',

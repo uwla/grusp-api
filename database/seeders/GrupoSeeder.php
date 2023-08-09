@@ -13,6 +13,10 @@ class GrupoSeeder extends Seeder
      */
     public function run(): void
     {
+        // don't seed Grupos in production
+        if (app()->isProduction())
+            return;
+
         $grupos = Grupo::factory(100)->create();
         $tags = Tag::where('namespace', 'grupo')->get();
 
