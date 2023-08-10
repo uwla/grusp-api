@@ -111,6 +111,47 @@ class AccountController extends Controller
     // Account verification
 
     /**
+     * Send account verification mail.
+     */
+    public function sendVerificationEmail(Request $request)
+    {
+        // validation
+        $rules = ['email' => ['required', 'email', 'confirmed', new USPEmailRule()]];
+        $request->validate($rules);
+
+        // attempt to get a user with the given email
+        $user = User::where('email', $request->email)->first();
+
+        // user not found, return error
+        if (! $user)
+        {
+            return response([
+                'errors' => [
+                    'email' => ['Email inválido.']
+                ]
+            ], 404);
+        }
+
+        // user already verified, return error
+        if ($user->hasVerifiedEmail())
+        {
+            return response([
+                'errors' => [
+                    'email' => ['Conta já verificada.']
+                ]
+            ], 403);
+        }
+
+        // send verification link
+        $user->sendEmailVerificationNotification();
+
+        // return successful response
+        return response([
+            'message' => 'Link sent'
+        ], 200);
+    }
+
+    /**
      * Verify the user's email.
      */
     public function verifyEmail(Request $request)

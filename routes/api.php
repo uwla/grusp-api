@@ -62,13 +62,17 @@ Route::get('/verified', function() {
 // account routes
 
 Route::group($attributes['account'], function () {
-   // account verification
+    // request link to verify account
+    Route::post('verify_link', 'sendVerificationEmail')
+        ->middleware('guest');
+
+   // verify account
     Route::get('verify/{id}/{hash}', 'verifyEmail')
         ->middleware('signed')
         ->name('verification.verify');
 
     // profile
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         Route::get('/bookmarks', 'bookmarks');
         Route::get('/comments', 'comments');
         Route::get('/grupos', 'grupos');
