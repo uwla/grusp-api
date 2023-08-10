@@ -75,6 +75,17 @@ class AuthController extends Controller
             return response($response, 403);
         }
 
+        // user not verified
+        if (! $user->hasVerifiedEmail())
+        {
+            $errorMessage = 'Este email ainda não foi verificado.';
+            $response = [
+                'errors' => ['email' => [$errorMessage] ],
+                'message' => $errorMessage
+            ];
+            return response($response, 403);
+        }
+
         // create login token
         $token_name = Str::random(8);
         $token = $user->createToken($token_name)->plainTextToken;
