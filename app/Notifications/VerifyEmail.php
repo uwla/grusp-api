@@ -28,9 +28,9 @@ class VerifyEmail extends VerifyEmailNotification implements ShouldQueue
         $expires = Str::between($apiUrl, 'expires=', '&');
         $signature = Str::after($apiUrl, 'signature=');
 
-        $frontend = env('FRONTEND_URL');
+        $base_url = config('mail.url.verify');
         $query = "id={$id}&hash={$hash}&expires={$expires}&signature={$signature}";
-        $frontendUrl = "{$frontend}/conta/verificar?{$query}";
+        $frontendUrl = "{$base_url}?{$query}";
 
         return $frontendUrl;
     }

@@ -16,8 +16,9 @@ class ResetPassword extends ResetPasswordNotification implements ShouldQueue
 
         $email = $notifiable->getEmailForPasswordReset();
         $token = $this->token;
-        $frontend = env('FRONTEND_URL');
-        $url = "{$frontend}/conta/resetar-senha?token={$token}&email={$email}";
+        $base_url = config('mail.url.reset');
+        $query = "token={$token}&email={$email}";
+        $url = "{$base_url}?{$query}";
         return $url;
     }
 

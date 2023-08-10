@@ -121,4 +121,17 @@ return [
         ],
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | URLS
+    |--------------------------------------------------------------------------
+    |
+    | Base URLs used when sending mails that redirects to the frontend.
+    |
+    */
+    'url' => [
+        'reset' => env('FRONTEND_URL') . '/conta/resetar-senha',
+        'verify' => env('FRONTEND_URL') . '/conta/verificar',
+    ]
 ];
