@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -54,7 +55,14 @@ class GrupoController extends Controller
 
         // handle upload of the cover image (main image)
        if ($request->hasFile('img')) {
+            // random file name
+            $ext = $request->img->getClientOriginalExtension();
+            $name = Str::upper(Str::random());
+            $filename = "{$name}{$ext}";
+
+            // add file
            $grupo->addMediaFromRequest('img')
+                 ->usingFileName($filename)
                  ->toMediaCollection('cover_image');
        }
 
@@ -62,7 +70,17 @@ class GrupoController extends Controller
         if ($request->hasFile('images')) {
             $images = $request->file('images');
             foreach ($images as $image)
-                $grupo->addMedia($image)->toMediaCollection('content_images');
+            {
+                // random name
+                $ext = $image->getClientOriginalExtension();
+                $name = Str::upper(Str::random());
+                $filename = "{$name}.{$ext}";
+
+                // add image
+                $grupo->addMedia($image)
+                    ->usingFileName($filename)
+                    ->toMediaCollection('content_images');
+            }
         }
 
         // grant the user permission to access the Grupo
@@ -124,8 +142,15 @@ class GrupoController extends Controller
 
         // handle upload of the cover image (main image)
         if ($request->hasFile('img')) {
+            // random file name
+            $ext = $request->img->getClientOriginalExtension();
+            $name = Str::upper(Str::random());
+            $filename = "{$name}{$ext}";
+
+            // add file
             $grupo->clearMediaCollection('cover_image');
             $grupo->addMediaFromRequest('img')
+                  ->usingFileName($filename)
                   ->toMediaCollection('cover_image');
         }
 
@@ -133,7 +158,17 @@ class GrupoController extends Controller
         if ($request->hasFile('images')) {
             $images = $request->file('images');
             foreach ($images as $image)
-                $grupo->addMedia($image)->toMediaCollection('content_images');
+            {
+                // random filename
+                $ext = $image->getClientOriginalExtension();
+                $name = Str::upper(Str::random());
+                $filename = "{$name}.{$ext}";
+
+                // add image
+                $grupo->addMedia($image)
+                    ->usingFileName($filename)
+                    ->toMediaCollection('content_images');
+            }
         }
 
         // handle deletion of the images
@@ -146,7 +181,7 @@ class GrupoController extends Controller
                 Media::find($id)->delete();
         }
 
-        // return the updated Grupo
+            // return the updated Grupo
             return $grupo->attachMediaUrl();
         }
 
@@ -175,10 +210,10 @@ class GrupoController extends Controller
 
         return [
             'titulo'      => 'required|string|min:2|max:200',
-            'descricao'   => 'required|string|max:5000',
-            'img'         => ['mimes:jpg', 'dimensions:min_width=350,max_width=450,ratio=1/1'],
+            'descricao'   => 'required|string|min:20|max:1500',
+            'img'         => ['mimes:jpg,png', 'max:2000', 'dimensions:min_width=350,max_width=450,ratio=1/1'],
             'images'      => 'nullable|array|min:1|max:15',
-            'images.*'    => 'mimes:jpg,png',
+            'images.*'    => 'mimes:jpg,png|max:2000',
             'tags'        => 'nullable|array|min:1|max:15',
             'tags.*'      => [$tag_rule],
 
