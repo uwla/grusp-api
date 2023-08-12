@@ -193,7 +193,7 @@ class Grupo extends Model implements HasMedia
             $id2grupo[$g->id] = $g;
         }
 
-        $ids = $grupos->pluck('ids');
+        $ids = $grupos->pluck('id');
         $mediaFiles = Media::whereIn('model_id', $ids)
             ->where('model_type', Grupo::class)
             ->get();
