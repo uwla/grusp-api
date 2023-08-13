@@ -85,7 +85,7 @@ class UserController extends Controller
         $roles = Role::where('name', 'not like', "%App%Models%User%")->pluck('name');
         $in = Rule::in($roles);
         return [
-            'name'     => 'required|string|max:50',
+            'name'     => 'required|string|min:2|max:50',
             'email'    => ['required', 'email', new USPEmailRule()],
             'password' => ['nullable', 'string', new PasswordRule()],
             'roles'    => 'required|array|min:1',

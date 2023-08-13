@@ -77,8 +77,8 @@ class TagController extends Controller
         $categories = Tag::where('namespace', 'tag')->pluck('name');
         $in = Rule::in($categories);
         return [
-            'name'        => 'required|string|max:50',
-            'description' => 'nullable|string|max:250',
+            'name'        => 'required|string|min:2|max:50',
+            'description' => 'nullable|string|min:2|max:250',
             'category'    => ['required', 'string', $in],
         ];
     }

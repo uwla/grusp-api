@@ -206,14 +206,14 @@ class GrupoController extends Controller
     {
         $tags = Tag::where('namespace', 'grupo')->get();
         $tag_rule = Rule::in($tags->pluck('name'));
-        $optional_text_rules = 'nullable|string|max:300';
+        $optional_text_rules = 'nullable|string|min:5|max:300';
 
         return [
             'titulo'      => 'required|string|min:2|max:200',
-            'descricao'   => 'required|string|min:20|max:1500',
-            'img'         => ['mimes:jpg,png', 'max:2000', 'dimensions:min_width=350,max_width=450,ratio=1/1'],
+            'descricao'   => 'required|string|min:10|max:1500',
+            'img'         => ['mimes:jpg,png', 'min:10', 'max:2000', 'dimensions:min_width=350,max_width=450,ratio=1/1'],
             'images'      => 'nullable|array|min:1|max:15',
-            'images.*'    => 'mimes:jpg,png|max:2000',
+            'images.*'    => 'mimes:jpg,png|min:10|max:2000',
             'tags'        => 'nullable|array|min:1|max:15',
             'tags.*'      => [$tag_rule],
 

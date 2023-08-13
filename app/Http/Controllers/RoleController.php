@@ -79,7 +79,7 @@ class RoleController extends Controller
         $rule = Rule::in($permissions);
 
         return [
-            'name' => 'required|string|max:25',
+            'name' => 'required|string|min:2|max:25',
             'description' => 'nullable|string|max:250',
             'permissions' => 'array|required|min:1',
             'permissions.*' => ['string', $rule]

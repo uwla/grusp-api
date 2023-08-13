@@ -64,8 +64,8 @@ class CategoryController extends Controller
     public function rules()
     {
         return [
-            'name'        => 'required|string|max:50',
-            'description' => 'nullable|string|max:250',
+            'name'        => 'required|string|min:2|max:50',
+            'description' => 'nullable|string|min:2|max:250',
         ];
     }
 

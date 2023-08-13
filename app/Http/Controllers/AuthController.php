@@ -23,8 +23,10 @@ class AuthController extends Controller
         $rules = $this->rules();
 
         // add more rules
-        $rules['name'] = 'required|string|min:2|max:80';
+        $rules['name'] = 'required|string|min:2|max:50';
         $rules['password'][] = 'confirmed';
+        $rules['password'][] = new PasswordRule();
+        $rules['email'][] = new USPEmailRule();
 
         // validate request
         $attr = $request->validate($rules);
@@ -151,9 +153,8 @@ class AuthController extends Controller
     public function rules()
     {
         return [
-            // 'email' => ['required', 'email', new USPEmailRule()],
             'email' => ['required', 'email'],
-            'password' => ['required', 'string', new PasswordRule()],
+            'password' => ['required', 'string'],
         ];
     }
 }
