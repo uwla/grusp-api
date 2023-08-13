@@ -21,7 +21,9 @@ class PublicController extends Controller
      **/
     public function grupo(Grupo $grupo)
     {
-        return $grupo->attachExtraData();
+        $grupo = $grupo->attachExtraData();
+        $grupo->images = $grupo->images->pluck('url');
+        return $grupo;
     }
 
     /**
