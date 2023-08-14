@@ -211,9 +211,9 @@ class GrupoController extends Controller
         return [
             'titulo'      => 'required|string|min:2|max:200',
             'descricao'   => 'required|string|min:10|max:1500',
-            'img'         => ['mimes:jpg,png', 'min:10', 'max:2000', 'dimensions:min_width=350,max_width=450,ratio=1/1'],
+            'img'         => ['mimes:jpg,png', 'min:1', 'max:2000', 'dimensions:min_width=200,max_width=800,ratio=1/1'],
             'images'      => 'nullable|array|min:1|max:15',
-            'images.*'    => 'mimes:jpg,png|min:10|max:2000',
+            'images.*'    => 'mimes:jpg,png|min:1|max:2000',
             'tags'        => 'nullable|array|min:1|max:15',
             'tags.*'      => [$tag_rule],
 
