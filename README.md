@@ -1,3 +1,5 @@
 # GRUSP API
 
-Prova de conceito da API do projeto GRUSP.
+Backend for GRUSP.
+
+Built with [Laravel 10](https://laravel.com/docs/10.x/).
