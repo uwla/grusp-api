@@ -13,7 +13,10 @@ class PublicController extends Controller
      */
     public function grupos()
     {
-        return Grupo::withExtraData(Grupo::inRandomOrder()->get());
+        // $grupos = Grupo::withExtraData(Grupo::inRandomOrder()->get());
+        $grupos = Grupo::withExtraData(Grupo::all());
+        $grupos->each(fn($g) => $g->images = $g->images->pluck('url'));
+        return $grupos;
     }
 
     /**

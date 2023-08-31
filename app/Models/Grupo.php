@@ -208,7 +208,7 @@ class Grupo extends Model implements HasMedia
                 $grupo->img = $url;
 
             else if ($media->collection_name == 'content_images')
-                $grupo->images->add($url);
+                $grupo->images->add(['url' => $url, 'id' => $media->id]);
         }
 
         return $grupos;
