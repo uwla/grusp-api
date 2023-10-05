@@ -4,6 +4,106 @@ Backend for GRUSP.
 
 Built with [Laravel 10](https://laravel.com/docs/10.x/).
 
+## Data
+
+Using typescript syntax, we define some data types and their corresponding JSON which is returned by the API.
+
+### PublicImage
+
+```typescript
+PublicImage = String
+```
+
+### PublicComment
+
+```typescript
+PublicComment = {
+    "comment": String,
+    "created_at": String,
+    "updated_at": String,
+    "author": String,
+}
+```
+
+### PublicTag
+
+```typescript
+PublicTag = String
+```
+
+### PublicCategory
+
+```typescript
+PublicCategory = String
+```
+
+### PublicCategories
+
+```typescript
+PublicCategorizedTags = {
+    [key: PublicCategory]: PublicTag
+}
+```
+
+### PublicGrupo
+
+```typescript
+PublicGrupo = {
+    "id": Number,
+    "titulo": String,
+    "descricao": String,
+    "contato": String,
+    "horario": String,
+    "links": String,
+    "lugar": String,
+    "mensalidade": String,
+    "publico": String,
+    "created_at": String,
+    "updated_at": String,
+    "upvotes": Number,
+    "downvotes": Number,
+    "img": PublicImage,
+    "images": PublicImage[],
+    "comments": PublicComment[],
+    "tags": PublicTag[]
+}
+```
+
+### User
+
+```typescript
+User = {
+    "id": Number,
+    "name": String,
+    "email": String,
+    "email_verified_at": String,
+    "created_at": String,
+    "updated_at": String,
+    "roles": Role.name[]
+}
+```
+
+### Role
+
+```typescript
+Role = {
+    "id": Number,
+    "name": String,
+    "description": String,
+    "created_at": String,
+    "updated_at": String,
+    "permissions": Permission[]
+}
+```
+
+### Permission
+
+```typescript
+Permission = String
+```
+
+### User Votes
+
 ## Routes
 
 The following routes are defined
