@@ -310,21 +310,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**RequestBody**:
+**RequestBody**: `{ email: User.email }`
 
-```typescript
-{
-    email: User.email
-}
-```
-
-**Response**:
-
-```typescript
-{
-    success: Boolean
-}
-```
+**Response**: `{ success: Boolean }`
 
 ### `api/account/password/reset`
 
@@ -343,13 +331,7 @@ The following routes are defined
 }
 ```
 
-**Response**:
-
-```typescript
-{
-    success: Boolean
-}
-```
+**Response**: `{ success: Boolean }`
 
 ### `api/account/profile`
 
@@ -379,13 +361,7 @@ The following routes are defined
 
 **RequestBody**: `None`
 
-**Response**:
-
-```typescript
-{
-    status: String,
-}
-```
+**Response**: `{ status: String }`
 
 ### `api/account/verify_link`
 
@@ -393,21 +369,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**RequestBody**:
+**RequestBody**: `{ email: User.email }`
 
-```typescript
-{
-    email: User.email
-}
-```
-
-**Response**:
-
-```typescript
-{
-    message: String,
-}
-```
+**Response**: `{ message: String }`
 
 ### `api/account/votes`
 
@@ -425,23 +389,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**RequestBody**:
+**RequestBody**: `{ email: User.email, password: User.password }`
 
-```typescript
-{
-    email: User.email,
-    password: User.password,
-}
-```
-
-**Response**:
-
-```typescript
-{
-    token: String,
-    user: User,
-}
-```
+**Response**: `{ token: String, user: User }`
 
 ### `api/auth/login/admin`
 
@@ -449,23 +399,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**RequestBody**:
+**RequestBody**: `{ email: User.email, password: User.password }`
 
-```typescript
-{
-    email: User.email,
-    password: User.password,
-}
-```
-
-**Response**:
-
-```typescript
-{
-    token: String,
-    user: User,
-}
-```
+**Response**: `{ token: String, user: User }`
 
 ### `api/auth/logout`
 
@@ -475,13 +411,7 @@ The following routes are defined
 
 **RequestBody**: `None`
 
-**Response**:
-
-```typescript
-{
-    status: String
-}
-```
+**Response**: `{ status: String }`
 
 ### `api/auth/register`
 
