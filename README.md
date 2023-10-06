@@ -6,80 +6,21 @@ Built with [Laravel 10](https://laravel.com/docs/10.x/).
 
 ## Data
 
-Using typescript syntax, we define some data types and their corresponding JSON which is returned by the API.
+Using typescript syntax, we define some data types.
 
-### PublicImage
+Their corresponding JSON is returned by the API.
 
-```typescript
-PublicImage = String
-```
-
-### PublicComment
+### Permission
 
 ```typescript
-PublicComment = {
-    "comment": String,
-    "created_at": String,
-    "updated_at": String,
-    "author": String,
-}
-```
-
-### PublicTag
-
-```typescript
-PublicTag = String
-```
-
-### PublicCategory
-
-```typescript
-PublicCategory = String
-```
-
-### PublicCategories
-
-```typescript
-PublicCategorizedTags = {
-    [key: PublicCategory]: PublicTag
-}
-```
-
-### PublicGrupo
-
-```typescript
-PublicGrupo = {
-    "id": Number,
-    "titulo": String,
-    "descricao": String,
-    "contato": String,
-    "horario": String,
-    "links": String,
-    "lugar": String,
-    "mensalidade": String,
-    "publico": String,
-    "created_at": String,
-    "updated_at": String,
-    "upvotes": Number,
-    "downvotes": Number,
-    "img": PublicImage,
-    "images": PublicImage[],
-    "comments": PublicComment[],
-    "tags": PublicTag[]
-}
-```
-
-### User
-
-```typescript
-User = {
-    "id": Number,
-    "name": String,
-    "email": String,
-    "email_verified_at": String,
-    "created_at": String,
-    "updated_at": String,
-    "roles": Role.name[]
+Permission = {
+    id: Number,
+    name: String,
+    model?: String,
+    model_id?: String,
+    description?: String,
+    created_at: String,
+    updated_at: String,
 }
 ```
 
@@ -87,22 +28,166 @@ User = {
 
 ```typescript
 Role = {
-    "id": Number,
-    "name": String,
-    "description": String,
-    "created_at": String,
-    "updated_at": String,
-    "permissions": Permission[]
+    id: Number,
+    name: String,
+    description?: String,
+    created_at: String,
+    updated_at: String,
+    permissions: Permission.name[]
 }
 ```
 
-### Permission
+### User
 
 ```typescript
-Permission = String
+User = {
+    id: Number,
+    name: String,
+    email: String,
+    email_verified_at?: String,
+    created_at: String,
+    updated_at: String,
+    roles: Role.name[]
+}
 ```
 
-### User Votes
+### Category
+
+```typescript
+Category = {
+    id: Number,
+    name: String,
+    namespace?: String,
+    description?: String,
+    created_at: String,
+    updated_at: String,
+}
+```
+
+### Tag
+
+```typescript
+Tag = {
+    id: Number,
+    name: String,
+    namespace?: String,
+    description?: String,
+    created_at: String,
+    updated_at: String,
+    category: Category.name,
+}
+```
+
+### Image
+
+```typescript
+Image = {
+    id: Number,
+    url: String,
+}
+```
+
+### GrupoComment
+
+```typescript
+GrupoComment = {
+    id: Number,
+    author: String,
+    comment: String,
+    created_at: String,
+    updated_at: String,
+}
+```
+
+### Grupo
+
+```typescript
+Grupo = {
+    id: Number,
+    titulo: String,
+    descricao: String,
+    contato?: String,
+    horario?: String,
+    links?: String,
+    lugar?: String,
+    mensalidade?: String,
+    publico?: String,
+    created_at: String,
+    updated_at: String,
+    upvotes: Number,
+    downvotes: Number,
+    img: Image,
+    images: Image[],
+    comments: GroupComment[],
+    tags: Tag.name[]
+}
+```
+
+### PublicGrupo
+
+```typescript
+PublicGrupo = {
+    id: Number,
+    titulo: String,
+    descricao: String,
+    contato?: String,
+    horario?: String,
+    links?: String,
+    lugar?: String,
+    mensalidade?: String,
+    publico?: String,
+    created_at: String,
+    updated_at: String,
+    upvotes: Number,
+    downvotes: Number,
+    img: Image.url,
+    images: Image.url[],
+    comments: GrupoComment[],
+    tags: Tag.name[]
+}
+```
+
+### PublicTags
+
+```typescript
+PublicTags = {
+    [key: Category.name]: Tag.name[],
+}
+```
+
+### UserGrupo
+
+```typescript
+UserGrupo = Grupo
+```
+
+### UserBookmark
+
+```typescript
+UserBookmark = Grupo.id
+```
+
+### UserVote
+
+```typescript
+UserVote = {
+    id: Number,
+    vote: Boolean,
+    grupo_id: Number,
+}
+```
+
+### UserComment
+
+```typescript
+UserComment = {
+    id: Number,
+    group_id: String,
+    comment: String,
+    created_at: String,
+    updated_at: String,
+}
+```
 
 ## Routes
 
