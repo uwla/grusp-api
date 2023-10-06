@@ -87,6 +87,31 @@ Image = {
 }
 ```
 
+### Vote
+
+```typescript
+Boolean = {
+    id: Number,
+    user_id: Number,
+    grupo_id: Number,
+    vote: Boolean,
+}
+```
+
+### Comment
+
+```typescript
+Comment = {
+    id: Number,
+    user_id: Number,
+    grupo_id: Number,
+    comment: String,
+    created_at: String,
+    updated_at: String,
+}
+```
+
+
 ### GrupoComment
 
 ```typescript
@@ -255,17 +280,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `UserBookmark[]`
 
 ### `api/account/comments`
 
@@ -273,17 +290,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `UserComment[]`
 
 ### `api/account/grupos`
 
@@ -291,17 +300,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `UserGrupo[]`
 
 ### `api/account/password/link`
 
@@ -309,16 +310,20 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**:
 
-```json
-{}
+```typescript
+{
+    email: User.email
+}
 ```
 
-**Output**:
+**Response**:
 
-```json
-{}
+```typescript
+{
+    success: Boolean
+}
 ```
 
 ### `api/account/password/reset`
@@ -327,16 +332,23 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**:
 
-```json
-{}
+```typescript
+{
+    token: String,
+    email: User.email,
+    password: User.password,
+    password_confirmation: User.password,
+}
 ```
 
-**Output**:
+**Response**:
 
-```json
-{}
+```typescript
+{
+    success: Boolean
+}
 ```
 
 ### `api/account/profile`
@@ -345,17 +357,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `User`
 
 ### `api/account/profile`
 
@@ -363,17 +367,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `User`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `User`
 
 ### `api/account/verify/{id}/{hash}`
 
@@ -381,16 +377,14 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
+**Response**:
 
-**Output**:
-
-```json
-{}
+```typescript
+{
+    status: String,
+}
 ```
 
 ### `api/account/verify_link`
@@ -399,16 +393,20 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**:
 
-```json
-{}
+```typescript
+{
+    email: User.email
+}
 ```
 
-**Output**:
+**Response**:
 
-```json
-{}
+```typescript
+{
+    message: String,
+}
 ```
 
 ### `api/account/votes`
@@ -417,17 +415,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `UserVote[]`
 
 ### `api/auth/login`
 
@@ -435,16 +425,22 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**:
 
-```json
-{}
+```typescript
+{
+    email: User.email,
+    password: User.password,
+}
 ```
 
-**Output**:
+**Response**:
 
-```json
-{}
+```typescript
+{
+    token: String,
+    user: User,
+}
 ```
 
 ### `api/auth/login/admin`
@@ -453,16 +449,22 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**:
 
-```json
-{}
+```typescript
+{
+    email: User.email,
+    password: User.password,
+}
 ```
 
-**Output**:
+**Response**:
 
-```json
-{}
+```typescript
+{
+    token: String,
+    user: User,
+}
 ```
 
 ### `api/auth/logout`
@@ -471,16 +473,14 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
+**Response**:
 
-**Output**:
-
-```json
-{}
+```typescript
+{
+    status: String
+}
 ```
 
 ### `api/auth/register`
@@ -489,17 +489,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `User`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `User`
 
 ### `api/bookmark/{grupo}`
 
@@ -507,35 +499,19 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `UserBookmark`
 
 ### `api/bookmark/{grupo}`
 
 **Description**:
 
-**Methods**: POST
+**Methods**: DELETE
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `UserBookmark`
 
 ### `api/category`
 
@@ -543,17 +519,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Category[]`
 
 ### `api/category`
 
@@ -561,17 +529,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `Category`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Category`
 
 ### `api/category/{category}`
 
@@ -579,17 +539,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Category`:
 
 ### `api/category/{category}`
 
@@ -597,17 +549,9 @@ The following routes are defined
 
 **Methods**: PUT, PATCH
 
-**Params**:
+**RequestBody**: `Category`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Category`:
 
 ### `api/category/{category}`
 
@@ -615,17 +559,9 @@ The following routes are defined
 
 **Methods**: DELETE
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Category`:
 
 ### `api/comment`
 
@@ -633,17 +569,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `Comment`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Comment`
 
 ### `api/comment/{comment}`
 
@@ -651,17 +579,9 @@ The following routes are defined
 
 **Methods**: PUT, PATCH
 
-**Params**:
+**RequestBody**: `Comment`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Comment`
 
 ### `api/comment/{comment}`
 
@@ -669,17 +589,9 @@ The following routes are defined
 
 **Methods**: DELETE
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Comment`
 
 ### `api/grupo`
 
@@ -687,17 +599,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Grupo[]`
 
 ### `api/grupo`
 
@@ -705,17 +609,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `Grupo`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Grupo`
 
 ### `api/grupo/{grupo}`
 
@@ -723,17 +619,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Grupo`
 
 ### `api/grupo/{grupo}`
 
@@ -741,17 +629,9 @@ The following routes are defined
 
 **Methods**: PUT, PATCH
 
-**Params**:
+**RequestBody**: `Grupo`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Grupo`
 
 ### `api/grupo/{grupo}`
 
@@ -759,17 +639,9 @@ The following routes are defined
 
 **Methods**: DELETE
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Grupo`
 
 ### `api/permission`
 
@@ -777,17 +649,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Permission.name[]`
 
 ### `api/public/categorias`
 
@@ -795,17 +659,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Category.name[]`
 
 ### `api/public/grupos`
 
@@ -813,17 +669,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `PublicGrupo[]`
 
 ### `api/public/grupos/{grupo}`
 
@@ -831,35 +679,19 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
+**Response**: `PublicGrupo`
 
-**Output**:
-
-```json
-{}
-```
-
-### `api/public/t`
+### `api/public/tags`
 
 **Description**:
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `PublicTags`
 
 ### `api/role`
 
@@ -867,17 +699,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Role[]`
 
 ### `api/role`
 
@@ -885,17 +709,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `Role`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Role`
 
 ### `api/role/{role}`
 
@@ -903,17 +719,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Role`
 
 ### `api/role/{role}`
 
@@ -921,17 +729,9 @@ The following routes are defined
 
 **Methods**: PUT, PATCH
 
-**Params**:
+**RequestBody**: `Role`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Role`
 
 ### `api/role/{role}`
 
@@ -939,17 +739,9 @@ The following routes are defined
 
 **Methods**: DELETE
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Role`
 
 ### `api/tag`
 
@@ -957,17 +749,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Tag[]`
 
 ### `api/tag`
 
@@ -975,17 +759,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `Tag`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Tag`
 
 ### `api/tag/{tag}`
 
@@ -993,17 +769,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Tag`
 
 ### `api/tag/{tag}`
 
@@ -1011,17 +779,9 @@ The following routes are defined
 
 **Methods**: PUT, PATCH
 
-**Params**:
+**RequestBody**: `Tag`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Tag`
 
 ### `api/tag/{tag}`
 
@@ -1029,17 +789,9 @@ The following routes are defined
 
 **Methods**: DELETE
 
-**Params**:
+**RequestBody**: `Tag`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Tag`
 
 ### `api/user`
 
@@ -1047,17 +799,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `User[]`
 
 ### `api/user`
 
@@ -1065,17 +809,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `User`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `User`
 
 ### `api/user/{user}`
 
@@ -1083,17 +819,9 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `User`
 
 ### `api/user/{user}`
 
@@ -1101,17 +829,9 @@ The following routes are defined
 
 **Methods**: PUT, PATCH
 
-**Params**:
+**RequestBody**: `User`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `User`
 
 ### `api/user/{user}`
 
@@ -1119,17 +839,9 @@ The following routes are defined
 
 **Methods**: DELETE
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `User`
 
 ### `api/vote`
 
@@ -1137,17 +849,9 @@ The following routes are defined
 
 **Methods**: POST
 
-**Params**:
+**RequestBody**: `Vote`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Vote`
 
 ### `api/vote/{vote}`
 
@@ -1155,17 +859,9 @@ The following routes are defined
 
 **Methods**: PUT, PATCH
 
-**Params**:
+**RequestBody**: `Vote`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Vote`
 
 ### `api/vote/{vote}`
 
@@ -1173,17 +869,9 @@ The following routes are defined
 
 **Methods**: DELETE
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
-```
-
-**Output**:
-
-```json
-{}
-```
+**Response**: `Vote`
 
 ### `sanctum/csrf-cookie`
 
@@ -1191,14 +879,13 @@ The following routes are defined
 
 **Methods**: GET, HEAD
 
-**Params**:
+**RequestBody**: `None`
 
-```json
-{}
+**Response**: `None`
+
+**ResponseHeaders**:
+
 ```
-
-**Output**:
-
-```json
-{}
+Set-Cookie: XSRF-TOKEN=${CSRF_TOKEN}
+Set-Cookie: grusp_api_session=${SESSION_TOKEN}
 ```
