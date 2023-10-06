@@ -51,6 +51,19 @@ User = {
 }
 ```
 
+### PublicUser
+
+```typescript
+User = {
+    id: Number,
+    name: String,
+    email: String,
+    email_verified_at?: String,
+    created_at: String,
+    updated_at: String,
+}
+```
+
 ### Category
 
 ```typescript
@@ -242,7 +255,6 @@ The following routes are defined
 | `PUT`, `PATCH` | `api/category/{category}`        | `category.update`        | `CategoryController@update`               |
 | `DELETE`       | `api/category/{category}`        | `category.destroy`       | `CategoryController@destroy`              |
 | `POST`         | `api/comment`                    | `comment.store`          | `CommentController@store`                 |
-| `PUT`, `PATCH` | `api/comment/{comment}`          | `comment.update`         | `CommentController@update`                |
 | `DELETE`       | `api/comment/{comment}`          | `comment.destroy`        | `CommentController@destroy`               |
 | `GET`, `HEAD`  | `api/grupo`                      | `grupo.index`            | `GrupoController@index`                   |
 | `POST`         | `api/grupo`                      | `grupo.store`            | `GrupoController@store`                   |
@@ -276,7 +288,7 @@ The following routes are defined
 
 ### `api/account/bookmarks`
 
-**Description**:
+**Description**: Get user's bookmarks.
 
 **Methods**: GET, HEAD
 
@@ -286,7 +298,7 @@ The following routes are defined
 
 ### `api/account/comments`
 
-**Description**:
+**Description**: Get user's comments.
 
 **Methods**: GET, HEAD
 
@@ -296,7 +308,7 @@ The following routes are defined
 
 ### `api/account/grupos`
 
-**Description**:
+**Description**: Get user's grupos.
 
 **Methods**: GET, HEAD
 
@@ -306,7 +318,7 @@ The following routes are defined
 
 ### `api/account/password/link`
 
-**Description**:
+**Description**: Request password reset link.
 
 **Methods**: POST
 
@@ -316,7 +328,7 @@ The following routes are defined
 
 ### `api/account/password/reset`
 
-**Description**:
+**Description**: Reset user's password.
 
 **Methods**: POST
 
@@ -335,27 +347,27 @@ The following routes are defined
 
 ### `api/account/profile`
 
-**Description**:
+**Description**: Get account profile.
 
 **Methods**: GET, HEAD
 
 **RequestBody**: `None`
 
-**Response**: `User`
+**Response**: `PublicUser`
 
 ### `api/account/profile`
 
-**Description**:
+**Description**: Update account profile.
 
 **Methods**: POST
 
-**RequestBody**: `User`
+**RequestBody**: `PublicUser`
 
-**Response**: `User`
+**Response**: `PublicUser`
 
 ### `api/account/verify/{id}/{hash}`
 
-**Description**:
+**Description**: Verify user's email.
 
 **Methods**: GET, HEAD
 
@@ -365,7 +377,7 @@ The following routes are defined
 
 ### `api/account/verify_link`
 
-**Description**:
+**Description**: Resend account verification link to user's email.
 
 **Methods**: POST
 
@@ -375,7 +387,7 @@ The following routes are defined
 
 ### `api/account/votes`
 
-**Description**:
+**Description**: Get user's votes.
 
 **Methods**: GET, HEAD
 
@@ -385,17 +397,17 @@ The following routes are defined
 
 ### `api/auth/login`
 
-**Description**:
+**Description**: Perform login.
 
 **Methods**: POST
 
 **RequestBody**: `{ email: User.email, password: User.password }`
 
-**Response**: `{ token: String, user: User }`
+**Response**: `{ token: String, user: PublicUser }`
 
 ### `api/auth/login/admin`
 
-**Description**:
+**Description**: Perform login as admin.
 
 **Methods**: POST
 
@@ -405,7 +417,7 @@ The following routes are defined
 
 ### `api/auth/logout`
 
-**Description**:
+**Description**: Perform logout.
 
 **Methods**: POST
 
@@ -415,17 +427,17 @@ The following routes are defined
 
 ### `api/auth/register`
 
-**Description**:
+**Description**: Register public user account.
 
 **Methods**: POST
 
-**RequestBody**: `User`
+**RequestBody**: `PublicUser`
 
-**Response**: `User`
+**Response**: `PublicUser`
 
 ### `api/bookmark/{grupo}`
 
-**Description**:
+**Description**: Create bookmark.
 
 **Methods**: POST
 
@@ -435,7 +447,7 @@ The following routes are defined
 
 ### `api/bookmark/{grupo}`
 
-**Description**:
+**Description**: Delete bookmark .
 
 **Methods**: DELETE
 
@@ -445,7 +457,7 @@ The following routes are defined
 
 ### `api/category`
 
-**Description**:
+**Description**: Get categories.
 
 **Methods**: GET, HEAD
 
@@ -455,7 +467,7 @@ The following routes are defined
 
 ### `api/category`
 
-**Description**:
+**Description**: Create category.
 
 **Methods**: POST
 
@@ -465,7 +477,7 @@ The following routes are defined
 
 ### `api/category/{category}`
 
-**Description**:
+**Description**: Get category.
 
 **Methods**: GET, HEAD
 
@@ -475,7 +487,7 @@ The following routes are defined
 
 ### `api/category/{category}`
 
-**Description**:
+**Description**: Update category.
 
 **Methods**: PUT, PATCH
 
@@ -485,7 +497,7 @@ The following routes are defined
 
 ### `api/category/{category}`
 
-**Description**:
+**Description**: Delete category.
 
 **Methods**: DELETE
 
@@ -495,7 +507,7 @@ The following routes are defined
 
 ### `api/comment`
 
-**Description**:
+**Description**: Create comment.
 
 **Methods**: POST
 
@@ -505,17 +517,7 @@ The following routes are defined
 
 ### `api/comment/{comment}`
 
-**Description**:
-
-**Methods**: PUT, PATCH
-
-**RequestBody**: `Comment`
-
-**Response**: `Comment`
-
-### `api/comment/{comment}`
-
-**Description**:
+**Description**: Delete comment.
 
 **Methods**: DELETE
 
@@ -525,7 +527,7 @@ The following routes are defined
 
 ### `api/grupo`
 
-**Description**:
+**Description**: Get grupos.
 
 **Methods**: GET, HEAD
 
@@ -535,7 +537,7 @@ The following routes are defined
 
 ### `api/grupo`
 
-**Description**:
+**Description**: Create grupo.
 
 **Methods**: POST
 
@@ -545,7 +547,7 @@ The following routes are defined
 
 ### `api/grupo/{grupo}`
 
-**Description**:
+**Description**: Get grupo.
 
 **Methods**: GET, HEAD
 
@@ -555,7 +557,7 @@ The following routes are defined
 
 ### `api/grupo/{grupo}`
 
-**Description**:
+**Description**: Update grupo.
 
 **Methods**: PUT, PATCH
 
@@ -565,7 +567,7 @@ The following routes are defined
 
 ### `api/grupo/{grupo}`
 
-**Description**:
+**Description**: Delete grupo.
 
 **Methods**: DELETE
 
@@ -575,7 +577,7 @@ The following routes are defined
 
 ### `api/permission`
 
-**Description**:
+**Description**: Get permissions.
 
 **Methods**: GET, HEAD
 
@@ -585,7 +587,7 @@ The following routes are defined
 
 ### `api/public/categorias`
 
-**Description**:
+**Description**: Get public categories.
 
 **Methods**: GET, HEAD
 
@@ -595,7 +597,7 @@ The following routes are defined
 
 ### `api/public/grupos`
 
-**Description**:
+**Description**: Get public grupos.
 
 **Methods**: GET, HEAD
 
@@ -605,7 +607,7 @@ The following routes are defined
 
 ### `api/public/grupos/{grupo}`
 
-**Description**:
+**Description**: Get public grupo.
 
 **Methods**: GET, HEAD
 
@@ -615,7 +617,7 @@ The following routes are defined
 
 ### `api/public/tags`
 
-**Description**:
+**Description**: Get public tags.
 
 **Methods**: GET, HEAD
 
@@ -625,7 +627,7 @@ The following routes are defined
 
 ### `api/role`
 
-**Description**:
+**Description**: Get roles.
 
 **Methods**: GET, HEAD
 
@@ -635,7 +637,7 @@ The following routes are defined
 
 ### `api/role`
 
-**Description**:
+**Description**: Create role.
 
 **Methods**: POST
 
@@ -645,7 +647,7 @@ The following routes are defined
 
 ### `api/role/{role}`
 
-**Description**:
+**Description**: Get role.
 
 **Methods**: GET, HEAD
 
@@ -655,7 +657,7 @@ The following routes are defined
 
 ### `api/role/{role}`
 
-**Description**:
+**Description**: Update role.
 
 **Methods**: PUT, PATCH
 
@@ -665,7 +667,7 @@ The following routes are defined
 
 ### `api/role/{role}`
 
-**Description**:
+**Description**: Delete role.
 
 **Methods**: DELETE
 
@@ -675,7 +677,7 @@ The following routes are defined
 
 ### `api/tag`
 
-**Description**:
+**Description**: Get tags.
 
 **Methods**: GET, HEAD
 
@@ -685,7 +687,7 @@ The following routes are defined
 
 ### `api/tag`
 
-**Description**:
+**Description**: Create tag.
 
 **Methods**: POST
 
@@ -695,7 +697,7 @@ The following routes are defined
 
 ### `api/tag/{tag}`
 
-**Description**:
+**Description**: Get tag.
 
 **Methods**: GET, HEAD
 
@@ -705,7 +707,7 @@ The following routes are defined
 
 ### `api/tag/{tag}`
 
-**Description**:
+**Description**: Update tag.
 
 **Methods**: PUT, PATCH
 
@@ -715,7 +717,7 @@ The following routes are defined
 
 ### `api/tag/{tag}`
 
-**Description**:
+**Description**: Delete tag.
 
 **Methods**: DELETE
 
@@ -725,7 +727,7 @@ The following routes are defined
 
 ### `api/user`
 
-**Description**:
+**Description**: Get users.
 
 **Methods**: GET, HEAD
 
@@ -735,7 +737,7 @@ The following routes are defined
 
 ### `api/user`
 
-**Description**:
+**Description**: Create user.
 
 **Methods**: POST
 
@@ -745,7 +747,7 @@ The following routes are defined
 
 ### `api/user/{user}`
 
-**Description**:
+**Description**: Get user.
 
 **Methods**: GET, HEAD
 
@@ -755,7 +757,7 @@ The following routes are defined
 
 ### `api/user/{user}`
 
-**Description**:
+**Description**: Update user.
 
 **Methods**: PUT, PATCH
 
@@ -765,7 +767,7 @@ The following routes are defined
 
 ### `api/user/{user}`
 
-**Description**:
+**Description**: Delete user.
 
 **Methods**: DELETE
 
@@ -775,7 +777,7 @@ The following routes are defined
 
 ### `api/vote`
 
-**Description**:
+**Description**: Create vote.
 
 **Methods**: POST
 
@@ -785,7 +787,7 @@ The following routes are defined
 
 ### `api/vote/{vote}`
 
-**Description**:
+**Description**: Update vote.
 
 **Methods**: PUT, PATCH
 
@@ -795,7 +797,7 @@ The following routes are defined
 
 ### `api/vote/{vote}`
 
-**Description**:
+**Description**: Delete vote.
 
 **Methods**: DELETE
 
@@ -805,7 +807,7 @@ The following routes are defined
 
 ### `sanctum/csrf-cookie`
 
-**Description**:
+**Description**: Get CSRF cookie.
 
 **Methods**: GET, HEAD
 
