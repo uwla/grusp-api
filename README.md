@@ -331,6 +331,11 @@ call. The value `logged in` means the user should be logged in. The value `not l
 means the user does not need to be logged in. Other methods include an
 authentication `token` in the request's body.
 
+The Authorization field specifies which permissions are required to make the API
+call. If the user making the request has any of the specificed  permissions,  he
+is authorized; otherwise, he is not. Empty permissions means that  there  is  no
+specific permission requirements (though login may be required).
+
 ### `api/account/bookmarks`
 
 **Description**: Get user's bookmarks.
@@ -342,6 +347,8 @@ authentication `token` in the request's body.
 **Response**: `UserBookmark[]`
 
 **Authentication**: logged in
+
+**Authorization**: `[]`
 
 ### `api/account/comments`
 
@@ -355,6 +362,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `[]`
+
 ### `api/account/grupos`
 
 **Description**: Get user's grupos.
@@ -366,6 +375,8 @@ authentication `token` in the request's body.
 **Response**: `UserGrupo[]`
 
 **Authentication**: logged in
+
+**Authorization**: `[]`
 
 ### `api/account/password/link`
 
@@ -379,6 +390,8 @@ authentication `token` in the request's body.
 
 **Authentication**: not logged
 
+**Authorization**: `[]`
+
 ### `api/account/password/reset`
 
 **Description**: Reset user's password.
@@ -390,6 +403,8 @@ authentication `token` in the request's body.
 **Response**: `{ success: Boolean }`
 
 **Authentication**: via request token
+
+**Authorization**: `[]`
 
 ### `api/account/profile`
 
@@ -403,6 +418,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `[]`
+
 ### `api/account/profile`
 
 **Description**: Update account profile.
@@ -414,6 +431,8 @@ authentication `token` in the request's body.
 **Response**: `PublicUser`
 
 **Authentication**: logged in
+
+**Authorization**: `[]`
 
 ### `api/account/verify/{id}/{hash}`
 
@@ -427,6 +446,8 @@ authentication `token` in the request's body.
 
 **Authentication**: via hash signature
 
+**Authorization**: `[]`
+
 ### `api/account/verify_link`
 
 **Description**: Resend account verification link to user's email.
@@ -438,6 +459,8 @@ authentication `token` in the request's body.
 **Response**: `{ message: String }`
 
 **Authentication**: not logged
+
+**Authorization**: `[]`
 
 ### `api/account/votes`
 
@@ -451,6 +474,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `[]`
+
 ### `api/auth/login`
 
 **Description**: Perform login.
@@ -462,6 +487,8 @@ authentication `token` in the request's body.
 **Response**: `{ token: String, user: PublicUser }`
 
 **Authentication**: not logged
+
+**Authorization**: `[]`
 
 ### `api/auth/login/admin`
 
@@ -475,6 +502,8 @@ authentication `token` in the request's body.
 
 **Authentication**: not logged
 
+**Authorization**: `[]`
+
 ### `api/auth/logout`
 
 **Description**: Perform logout.
@@ -486,6 +515,8 @@ authentication `token` in the request's body.
 **Response**: `{ status: String }`
 
 **Authentication**: logged in
+
+**Authorization**: `[]`
 
 ### `api/auth/register`
 
@@ -499,6 +530,8 @@ authentication `token` in the request's body.
 
 **Authentication**: not logged
 
+**Authorization**: `[]`
+
 ### `api/bookmark/{grupo}`
 
 **Description**: Create bookmark.
@@ -510,6 +543,8 @@ authentication `token` in the request's body.
 **Response**: `UserBookmark`
 
 **Authentication**: logged in
+
+**Authorization**: `[]`
 
 ### `api/bookmark/{grupo}`
 
@@ -523,6 +558,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `[]`
+
 ### `api/category`
 
 **Description**: Get categories.
@@ -534,6 +571,8 @@ authentication `token` in the request's body.
 **Response**: `Category[]`
 
 **Authentication**: logged in
+
+**Authorization**: `['category.viewAny']`
 
 ### `api/category`
 
@@ -547,6 +586,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['category.create']`
+
 ### `api/category/{category}`
 
 **Description**: Get category.
@@ -558,6 +599,8 @@ authentication `token` in the request's body.
 **Response**: `Category`:
 
 **Authentication**: logged in
+
+**Authorization**: `['category.viewAny', 'category.view']`
 
 ### `api/category/{category}`
 
@@ -571,6 +614,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['category.updateAny', 'category.update']`
+
 ### `api/category/{category}`
 
 **Description**: Delete category.
@@ -582,6 +627,8 @@ authentication `token` in the request's body.
 **Response**: `Category`:
 
 **Authentication**: logged in
+
+**Authorization**: `['category.deleteAny', 'category.delete']`
 
 ### `api/comment`
 
@@ -595,6 +642,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `[]`
+
 ### `api/comment/{comment}`
 
 **Description**: Delete comment.
@@ -606,6 +655,8 @@ authentication `token` in the request's body.
 **Response**: `Comment`
 
 **Authentication**: logged in
+
+**Authorization**: `[]`
 
 ### `api/grupo`
 
@@ -619,6 +670,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['grupo.viewAny']`
+
 ### `api/grupo`
 
 **Description**: Create grupo.
@@ -630,6 +683,8 @@ authentication `token` in the request's body.
 **Response**: `Grupo`
 
 **Authentication**: logged in
+
+**Authorization**: `['grupo.create']`
 
 ### `api/grupo/{grupo}`
 
@@ -643,6 +698,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['grupo.viewAny', 'grupo.view']`
+
 ### `api/grupo/{grupo}`
 
 **Description**: Update grupo.
@@ -654,6 +711,8 @@ authentication `token` in the request's body.
 **Response**: `Grupo`
 
 **Authentication**: logged in
+
+**Authorization**: `['grupo.updateAny', 'grupo.update]`
 
 ### `api/grupo/{grupo}`
 
@@ -667,6 +726,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['grupo.deleteAny', 'grupo.delete]`
+
 ### `api/permission`
 
 **Description**: Get permissions.
@@ -678,6 +739,8 @@ authentication `token` in the request's body.
 **Response**: `Permission.name[]`
 
 **Authentication**: logged in
+
+**Authorization**: `['permission.viewAny']`
 
 ### `api/public/categorias`
 
@@ -691,6 +754,8 @@ authentication `token` in the request's body.
 
 **Authentication**: not logged
 
+**Authorization**: `[]`
+
 ### `api/public/grupos`
 
 **Description**: Get public grupos.
@@ -702,6 +767,8 @@ authentication `token` in the request's body.
 **Response**: `PublicGrupo[]`
 
 **Authentication**: not logged
+
+**Authorization**: `[]`
 
 ### `api/public/grupos/{grupo}`
 
@@ -715,6 +782,8 @@ authentication `token` in the request's body.
 
 **Authentication**: not logged
 
+**Authorization**: `[]`
+
 ### `api/public/tags`
 
 **Description**: Get public tags.
@@ -726,6 +795,8 @@ authentication `token` in the request's body.
 **Response**: `PublicTags`
 
 **Authentication**: not logged
+
+**Authorization**: `[]`
 
 ### `api/role`
 
@@ -739,6 +810,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['role.viewAny']`
+
 ### `api/role`
 
 **Description**: Create role.
@@ -750,6 +823,8 @@ authentication `token` in the request's body.
 **Response**: `Role`
 
 **Authentication**: logged in
+
+**Authorization**: `['role.create']`
 
 ### `api/role/{role}`
 
@@ -763,6 +838,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['role.viewAny', 'role.view']`
+
 ### `api/role/{role}`
 
 **Description**: Update role.
@@ -774,6 +851,8 @@ authentication `token` in the request's body.
 **Response**: `Role`
 
 **Authentication**: logged in
+
+**Authorization**: `['role.updateAny', 'role.update']`
 
 ### `api/role/{role}`
 
@@ -787,6 +866,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['role.deleteAny', 'role.delete']`
+
 ### `api/tag`
 
 **Description**: Get tags.
@@ -798,6 +879,8 @@ authentication `token` in the request's body.
 **Response**: `Tag[]`
 
 **Authentication**: logged in
+
+**Authorization**: `['tag.viewAny']`
 
 ### `api/tag`
 
@@ -811,6 +894,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['tag.create']`
+
 ### `api/tag/{tag}`
 
 **Description**: Get tag.
@@ -822,6 +907,8 @@ authentication `token` in the request's body.
 **Response**: `Tag`
 
 **Authentication**: logged in
+
+**Authorization**: `['tag.viewAny', 'tag.view']`
 
 ### `api/tag/{tag}`
 
@@ -835,6 +922,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['tag.updateAny', 'tag.update']`
+
 ### `api/tag/{tag}`
 
 **Description**: Delete tag.
@@ -846,6 +935,8 @@ authentication `token` in the request's body.
 **Response**: `Tag`
 
 **Authentication**: logged in
+
+**Authorization**: `['tag.deleteAny', 'tag.delete']`
 
 ### `api/user`
 
@@ -859,6 +950,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['user.viewAny']`
+
 ### `api/user`
 
 **Description**: Create user.
@@ -870,6 +963,8 @@ authentication `token` in the request's body.
 **Response**: `User`
 
 **Authentication**: logged in
+
+**Authorization**: `['user.create']`
 
 ### `api/user/{user}`
 
@@ -883,6 +978,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['user.viewAny', 'user.view']`
+
 ### `api/user/{user}`
 
 **Description**: Update user.
@@ -894,6 +991,8 @@ authentication `token` in the request's body.
 **Response**: `User`
 
 **Authentication**: logged in
+
+**Authorization**: `['user.updateAny', 'user.update']`
 
 ### `api/user/{user}`
 
@@ -907,6 +1006,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `['user.deleteAny', 'user.delete']`
+
 ### `api/vote`
 
 **Description**: Create vote.
@@ -918,6 +1019,8 @@ authentication `token` in the request's body.
 **Response**: `Vote`
 
 **Authentication**: logged in
+
+**Authorization**: `[]`
 
 ### `api/vote/{vote}`
 
@@ -931,6 +1034,8 @@ authentication `token` in the request's body.
 
 **Authentication**: logged in
 
+**Authorization**: `[]`
+
 ### `api/vote/{vote}`
 
 **Description**: Delete vote.
@@ -942,6 +1047,8 @@ authentication `token` in the request's body.
 **Response**: `Vote`
 
 **Authentication**: logged in
+
+**Authorization**: `[]`
 
 ### `sanctum/csrf-cookie`
 
@@ -961,3 +1068,5 @@ Set-Cookie: grusp_api_session=${SESSION_TOKEN}
 ```
 
 **Authentication**: not logged
+
+**Authorization**: `[]`
