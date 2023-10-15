@@ -227,6 +227,43 @@ UserComment = {
 }
 ```
 
+## ACL
+
+GRUSP Api uses an Acess Control List system to manage resource  actions.  It  is
+based on a role-permission paradigm, where roles have permissions and users have
+roles.
+
+Permissions grant access to specific or generic resources. A generic  permission
+is one that allows an action to be performed on several instances of a model.  A
+specific permission allows an action to be performed on a particular instance of
+a model.
+
+Example of generic permissions: `{model}.create`, `{model}.viewAny`,
+`{model}.updateAny`, `{model}.deleteAny`. Here `{m̀odel}` denotes the model's
+slug, such as `user`, `grupo`, `tag`, `role`, etc.
+
+Example of specific permissions: `{model}.view`, `{model}.update`,
+`{model}.delete`. These specific permissions are associated with the ID of the
+model instance they represent.
+
+Permissiosn  can't  be  created,  not  even  by  administrator.  They  are   all
+predefined. Only specific permissions are created, but these are created by  the
+API itself, such as when a user creates a grupo and permissions related  to  the
+grupo are created as well.
+
+Users inherit permissions from their roles, which are abstract entities used  to
+group permissions related to a particular  administrative  function.  Users  may
+also have direct permissions,  instead  of  inheriting  from  their  roles.  One
+example of direct permissions is the permission to visualize, modify, and delete
+grupos created by the user himself.
+
+There are administrative roles: admin (all permissions) and manager  (all  Grupo
+related permissions). There is also non-administrative roles: normal  user  (can
+create grupos and edit his own). All users registered by public registration are
+normal users. Users added by the administrator will have their roles set by  the
+administrator.
+
+
 ## Routes
 
 The following routes are defined
