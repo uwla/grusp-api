@@ -323,6 +323,14 @@ The following routes are defined
 | `DELETE`       | `api/vote/{vote}`                | `vote.destroy`           | `VoteController@destroy`                  |
 | `GET`, `HEAD`  | `sanctum/csrf-cookie`            | `sanctum.csrf-cookie`    | `CsrfCookieController@show`               |
 
+
+Next, we describe each route.
+
+The Authentication field specifies the authentication required to make the API
+call. The value `logged in` means the user should be logged in. The value `not logged`
+means the user does not need to be logged in. Other methods include an
+authentication `token` in the request's body.
+
 ### `api/account/bookmarks`
 
 **Description**: Get user's bookmarks.
@@ -332,6 +340,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `UserBookmark[]`
+
+**Authentication**: logged in
 
 ### `api/account/comments`
 
@@ -343,6 +353,8 @@ The following routes are defined
 
 **Response**: `UserComment[]`
 
+**Authentication**: logged in
+
 ### `api/account/grupos`
 
 **Description**: Get user's grupos.
@@ -352,6 +364,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `UserGrupo[]`
+
+**Authentication**: logged in
 
 ### `api/account/password/link`
 
@@ -363,24 +377,19 @@ The following routes are defined
 
 **Response**: `{ success: Boolean }`
 
+**Authentication**: not logged
+
 ### `api/account/password/reset`
 
 **Description**: Reset user's password.
 
 **Methods**: POST
 
-**RequestBody**:
-
-```typescript
-{
-    token: String,
-    email: User.email,
-    password: User.password,
-    password_confirmation: User.password,
-}
-```
+**RequestBody**: `{ token: String, email: User.email, password: User.password, password_confirmation: User.password, }`
 
 **Response**: `{ success: Boolean }`
+
+**Authentication**: via request token
 
 ### `api/account/profile`
 
@@ -392,6 +401,8 @@ The following routes are defined
 
 **Response**: `PublicUser`
 
+**Authentication**: logged in
+
 ### `api/account/profile`
 
 **Description**: Update account profile.
@@ -401,6 +412,8 @@ The following routes are defined
 **RequestBody**: `PublicUser`
 
 **Response**: `PublicUser`
+
+**Authentication**: logged in
 
 ### `api/account/verify/{id}/{hash}`
 
@@ -412,6 +425,8 @@ The following routes are defined
 
 **Response**: `{ status: String }`
 
+**Authentication**: via hash signature
+
 ### `api/account/verify_link`
 
 **Description**: Resend account verification link to user's email.
@@ -421,6 +436,8 @@ The following routes are defined
 **RequestBody**: `{ email: User.email }`
 
 **Response**: `{ message: String }`
+
+**Authentication**: not logged
 
 ### `api/account/votes`
 
@@ -432,6 +449,8 @@ The following routes are defined
 
 **Response**: `UserVote[]`
 
+**Authentication**: logged in
+
 ### `api/auth/login`
 
 **Description**: Perform login.
@@ -441,6 +460,8 @@ The following routes are defined
 **RequestBody**: `{ email: User.email, password: User.password }`
 
 **Response**: `{ token: String, user: PublicUser }`
+
+**Authentication**: not logged
 
 ### `api/auth/login/admin`
 
@@ -452,6 +473,8 @@ The following routes are defined
 
 **Response**: `{ token: String, user: User }`
 
+**Authentication**: not logged
+
 ### `api/auth/logout`
 
 **Description**: Perform logout.
@@ -461,6 +484,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `{ status: String }`
+
+**Authentication**: logged in
 
 ### `api/auth/register`
 
@@ -472,6 +497,8 @@ The following routes are defined
 
 **Response**: `PublicUser`
 
+**Authentication**: not logged
+
 ### `api/bookmark/{grupo}`
 
 **Description**: Create bookmark.
@@ -481,6 +508,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `UserBookmark`
+
+**Authentication**: logged in
 
 ### `api/bookmark/{grupo}`
 
@@ -492,6 +521,8 @@ The following routes are defined
 
 **Response**: `UserBookmark`
 
+**Authentication**: logged in
+
 ### `api/category`
 
 **Description**: Get categories.
@@ -501,6 +532,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `Category[]`
+
+**Authentication**: logged in
 
 ### `api/category`
 
@@ -512,6 +545,8 @@ The following routes are defined
 
 **Response**: `Category`
 
+**Authentication**: logged in
+
 ### `api/category/{category}`
 
 **Description**: Get category.
@@ -521,6 +556,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `Category`:
+
+**Authentication**: logged in
 
 ### `api/category/{category}`
 
@@ -532,6 +569,8 @@ The following routes are defined
 
 **Response**: `Category`:
 
+**Authentication**: logged in
+
 ### `api/category/{category}`
 
 **Description**: Delete category.
@@ -541,6 +580,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `Category`:
+
+**Authentication**: logged in
 
 ### `api/comment`
 
@@ -552,6 +593,8 @@ The following routes are defined
 
 **Response**: `Comment`
 
+**Authentication**: logged in
+
 ### `api/comment/{comment}`
 
 **Description**: Delete comment.
@@ -561,6 +604,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `Comment`
+
+**Authentication**: logged in
 
 ### `api/grupo`
 
@@ -572,6 +617,8 @@ The following routes are defined
 
 **Response**: `Grupo[]`
 
+**Authentication**: logged in
+
 ### `api/grupo`
 
 **Description**: Create grupo.
@@ -581,6 +628,8 @@ The following routes are defined
 **RequestBody**: `Grupo`
 
 **Response**: `Grupo`
+
+**Authentication**: logged in
 
 ### `api/grupo/{grupo}`
 
@@ -592,6 +641,8 @@ The following routes are defined
 
 **Response**: `Grupo`
 
+**Authentication**: logged in
+
 ### `api/grupo/{grupo}`
 
 **Description**: Update grupo.
@@ -601,6 +652,8 @@ The following routes are defined
 **RequestBody**: `Grupo`
 
 **Response**: `Grupo`
+
+**Authentication**: logged in
 
 ### `api/grupo/{grupo}`
 
@@ -612,6 +665,8 @@ The following routes are defined
 
 **Response**: `Grupo`
 
+**Authentication**: logged in
+
 ### `api/permission`
 
 **Description**: Get permissions.
@@ -621,6 +676,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `Permission.name[]`
+
+**Authentication**: logged in
 
 ### `api/public/categorias`
 
@@ -632,6 +689,8 @@ The following routes are defined
 
 **Response**: `Category.name[]`
 
+**Authentication**: not logged
+
 ### `api/public/grupos`
 
 **Description**: Get public grupos.
@@ -641,6 +700,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `PublicGrupo[]`
+
+**Authentication**: not logged
 
 ### `api/public/grupos/{grupo}`
 
@@ -652,6 +713,8 @@ The following routes are defined
 
 **Response**: `PublicGrupo`
 
+**Authentication**: not logged
+
 ### `api/public/tags`
 
 **Description**: Get public tags.
@@ -661,6 +724,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `PublicTags`
+
+**Authentication**: not logged
 
 ### `api/role`
 
@@ -672,6 +737,8 @@ The following routes are defined
 
 **Response**: `Role[]`
 
+**Authentication**: logged in
+
 ### `api/role`
 
 **Description**: Create role.
@@ -681,6 +748,8 @@ The following routes are defined
 **RequestBody**: `Role`
 
 **Response**: `Role`
+
+**Authentication**: logged in
 
 ### `api/role/{role}`
 
@@ -692,6 +761,8 @@ The following routes are defined
 
 **Response**: `Role`
 
+**Authentication**: logged in
+
 ### `api/role/{role}`
 
 **Description**: Update role.
@@ -701,6 +772,8 @@ The following routes are defined
 **RequestBody**: `Role`
 
 **Response**: `Role`
+
+**Authentication**: logged in
 
 ### `api/role/{role}`
 
@@ -712,6 +785,8 @@ The following routes are defined
 
 **Response**: `Role`
 
+**Authentication**: logged in
+
 ### `api/tag`
 
 **Description**: Get tags.
@@ -721,6 +796,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `Tag[]`
+
+**Authentication**: logged in
 
 ### `api/tag`
 
@@ -732,6 +809,8 @@ The following routes are defined
 
 **Response**: `Tag`
 
+**Authentication**: logged in
+
 ### `api/tag/{tag}`
 
 **Description**: Get tag.
@@ -741,6 +820,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `Tag`
+
+**Authentication**: logged in
 
 ### `api/tag/{tag}`
 
@@ -752,6 +833,8 @@ The following routes are defined
 
 **Response**: `Tag`
 
+**Authentication**: logged in
+
 ### `api/tag/{tag}`
 
 **Description**: Delete tag.
@@ -761,6 +844,8 @@ The following routes are defined
 **RequestBody**: `Tag`
 
 **Response**: `Tag`
+
+**Authentication**: logged in
 
 ### `api/user`
 
@@ -772,6 +857,8 @@ The following routes are defined
 
 **Response**: `User[]`
 
+**Authentication**: logged in
+
 ### `api/user`
 
 **Description**: Create user.
@@ -781,6 +868,8 @@ The following routes are defined
 **RequestBody**: `User`
 
 **Response**: `User`
+
+**Authentication**: logged in
 
 ### `api/user/{user}`
 
@@ -792,6 +881,8 @@ The following routes are defined
 
 **Response**: `User`
 
+**Authentication**: logged in
+
 ### `api/user/{user}`
 
 **Description**: Update user.
@@ -801,6 +892,8 @@ The following routes are defined
 **RequestBody**: `User`
 
 **Response**: `User`
+
+**Authentication**: logged in
 
 ### `api/user/{user}`
 
@@ -812,6 +905,8 @@ The following routes are defined
 
 **Response**: `User`
 
+**Authentication**: logged in
+
 ### `api/vote`
 
 **Description**: Create vote.
@@ -821,6 +916,8 @@ The following routes are defined
 **RequestBody**: `Vote`
 
 **Response**: `Vote`
+
+**Authentication**: logged in
 
 ### `api/vote/{vote}`
 
@@ -832,6 +929,8 @@ The following routes are defined
 
 **Response**: `Vote`
 
+**Authentication**: logged in
+
 ### `api/vote/{vote}`
 
 **Description**: Delete vote.
@@ -841,6 +940,8 @@ The following routes are defined
 **RequestBody**: `None`
 
 **Response**: `Vote`
+
+**Authentication**: logged in
 
 ### `sanctum/csrf-cookie`
 
@@ -858,3 +959,5 @@ The following routes are defined
 Set-Cookie: XSRF-TOKEN=${CSRF_TOKEN}
 Set-Cookie: grusp_api_session=${SESSION_TOKEN}
 ```
+
+**Authentication**: not logged
